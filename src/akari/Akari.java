@@ -7,7 +7,6 @@ umieszczanie żarówek polega na wpisywaniu odpowiednich adresów pól
 poszczególne pola zapisywane są w tablicy dwuwymiarowej
  */
 
-
 package akari;
 
 import java.util.Scanner;
@@ -31,6 +30,13 @@ public class Akari {
     public static String alphabet = "abcdefghijklmnopqrstuvwxyz"; /* alfabet, przydatny do
     orientacji na planszy
      */
+
+    //metoda umożliwiająca wprowadzenie przez użytkownika wielkości planszy
+    public static int boardSize() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("ENTER BOARD SIZE (1 - 26): ");
+        return scanner.nextInt() + 2;
+    }
 
     //metoda resetująca planszę, usuwa wszystkie żarówki z planszy
     public static void reset(String[][] board) {
@@ -248,8 +254,8 @@ public class Akari {
      */
 
     public static void main(String[] args) {
-        String[][] board = Generator.generate(10);
         intro();
+        String[][] board = Generator.generate(boardSize());
         while(endGame(board)) {
             printBoard(board);
             input(board);
