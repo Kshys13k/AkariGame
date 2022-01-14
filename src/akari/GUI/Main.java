@@ -14,18 +14,18 @@ public class Main {
         JFrame frame = new JFrame();
         JPanel panel  = new JPanel();
         frame.getContentPane();
-        JLabel label = new JLabel(new ImageIcon("graphics/test_tile1.png"));
+
         ImageIcon tile1 = new ImageIcon("graphics/test_tile1.png");
         ImageIcon tile2 = new ImageIcon("graphics/test_tile2.png");
 
 
         Dimension size = new Dimension(40,40);
-        label.setBounds(10,10,size.width,size.height);
+
         panel.setLayout(null);
-        panel.add(label);
+
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         panel.setBackground(Color.GRAY);
-        label.setLocation(X,Y);
+
         JLabel[][] pictures = new JLabel[10][10];
         final boolean[][] color = new boolean[X][Y];
         for (int i = 0; i < 10; i++) {
@@ -39,7 +39,7 @@ public class Main {
                 pictures[i][j].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        System.out.println(e.getX()+ " " + e.getY());
+                        System.out.println(finalI+ " " + finalJ);
                         if(color[finalI][finalJ]){
                             pictures[finalI][finalJ].setIcon(new ImageIcon("graphics/test_tile1.png"));
                             color[finalI][finalJ] = false;
