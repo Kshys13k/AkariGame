@@ -22,59 +22,59 @@ public class Solver extends Akari {
         //jeśli pole podświetlone lub zawiera żarówkę to nie można:
         if(board[x][y].equals(lighted)||board[x][y].equals(lighted2)||board[x][y].equals(bulb)) return false;
         //jeśli przekroczymy limit żarówek na sąsiedniej ścianie z numerem to nie można:
-        //(x+1)(y+1)
-        if(board[x+1][y+1].equals(wall1)){
+        //(x+1)(y)
+        if(board[x+1][y].equals(wall1)){
             if(countBulbs(board,x+1,y+1)>=1) return false;
         }
-        if(board[x+1][y+1].equals(wall2)){
+        if(board[x+1][y].equals(wall2)){
             if(countBulbs(board,x+1,y+1)>=2) return false;
         }
-        if(board[x+1][y+1].equals(wall3)){
+        if(board[x+1][y].equals(wall3)){
             if(countBulbs(board,x+1,y+1)>=3) return false;
         }
-        if(board[x+1][y+1].equals(wall4)){
+        if(board[x+1][y].equals(wall4)){
             if(countBulbs(board,x+1,y+1)>=4) return false;
         }
 
-        //(x+1)(y-1)
-        if(board[x+1][y-1].equals(wall1)){
+        //(x)(y-1)
+        if(board[x][y-1].equals(wall1)){
             if(countBulbs(board,x+1,y-1)>=1) return false;
         }
-        if(board[x+1][y-1].equals(wall2)){
+        if(board[x][y-1].equals(wall2)){
             if(countBulbs(board,x+1,y-1)>=2) return false;
         }
-        if(board[x+1][y-1].equals(wall3)){
+        if(board[x][y-1].equals(wall3)){
             if(countBulbs(board,x+1,y-1)>=3) return false;
         }
-        if(board[x+1][y-1].equals(wall4)){
+        if(board[x][y-1].equals(wall4)){
             if(countBulbs(board,x+1,y-1)>=4) return false;
         }
 
-        //(x-1)(y+1)
-        if(board[x-1][y+1].equals(wall1)){
+        //(x-1)
+        if(board[x-1][y].equals(wall1)){
             if(countBulbs(board,x+1,y+1)>=1) return false;
         }
-        if(board[x-1][y+1].equals(wall2)){
+        if(board[x-1][y].equals(wall2)){
             if(countBulbs(board,x+1,y+1)>=2) return false;
         }
-        if(board[x-1][y+1].equals(wall3)){
+        if(board[x-1][y].equals(wall3)){
             if(countBulbs(board,x+1,y+1)>=3) return false;
         }
-        if(board[x-1][y+1].equals(wall4)){
+        if(board[x-1][y].equals(wall4)){
             if(countBulbs(board,x+1,y+1)>=4) return false;
         }
 
-        //(x-1)(y-1)
-        if(board[x-1][y-1].equals(wall1)){
+        //(x)(y+1)
+        if(board[x][y+1].equals(wall1)){
             if(countBulbs(board,x+1,y-1)>=1) return false;
         }
-        if(board[x-1][y-1].equals(wall2)){
+        if(board[x][y+1].equals(wall2)){
             if(countBulbs(board,x+1,y-1)>=2) return false;
         }
-        if(board[x-1][y-1].equals(wall3)){
+        if(board[x][y+1].equals(wall3)){
             if(countBulbs(board,x+1,y-1)>=3) return false;
         }
-        if(board[x-1][y-1].equals(wall4)){
+        if(board[x][y+1].equals(wall4)){
             if(countBulbs(board,x+1,y-1)>=4) return false;
         }
         return true;
