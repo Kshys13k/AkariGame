@@ -1,7 +1,3 @@
-/*
-Klasa Solver w budowie
- */
-
 package akari;
 
 import java.util.ArrayList;
@@ -16,8 +12,8 @@ public class Solver extends Akari {
     }
     //metoda sprawdzająca czy w sąsiedztwie nie ma ściany [0]
     public static boolean isNotNextTo0(String[][] board, int row, int column) {
-        return !(board[row][column].equals(wall0) || board[row-1][column-1].equals(wall0) || board[row-1][column+1].equals(wall1)
-                || board[row+1][column-1].equals(wall0) || board[row+1][column+1].equals(wall0));
+        return !(board[row-1][column].equals(wall0) || board[row+1][column].equals(wall0)
+                || board[row][column-1].equals(wall0) || board[row][column+1].equals(wall0));
     }
 
 
@@ -102,26 +98,32 @@ public class Solver extends Akari {
         int x,y;
         int limit=listOfSuspectedCells.size()-1;
         for(;;){
+            System.out.println("\n"+pointer);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             x=listOfSuspectedCells.get(pointer).getX();
             y=listOfSuspectedCells.get(pointer).getY();
-            if(pointer<limit){
+            if(pointer<=limit){
                 if(canBeTurnedOn(board, x, y)){
                     placeBulb(board,x,y);
                     if(!endGame(board)) break;
-                    pointer++;
                 }
-            }else{
+            }if(pointer==limit){
                 if(board[x][y].equals(bulb)) placeBulb(board,x,y);
                 for(;;){
                     pointer--;
                     if(board[x][y].equals(bulb)) {
                         placeBulb(board,x,y);
-                        pointer++;
                         break;
                     }
                     if(pointer==0) return board;
                 }
             }
+            printBoard(board);
+           pointer++;
         }
             return board;
         }
