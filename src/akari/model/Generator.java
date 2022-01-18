@@ -4,7 +4,7 @@ Generator generuje tylko możliwe do rozwiązania plansze
 Generator może wygenerować każdą możliwą do rozwiązania planszę
  */
 
-package akari;
+package akari.model;
 
 import java.util.Random;
 

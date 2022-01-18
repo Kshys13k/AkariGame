@@ -7,7 +7,7 @@ umieszczanie żarówek polega na wpisywaniu odpowiednich adresów pól
 poszczególne pola zapisywane są w tablicy dwuwymiarowej
  */
 
-package akari;
+package akari.model;
 
 import java.util.Scanner;
 
@@ -16,6 +16,8 @@ public class Akari {
     /*
     Zmienne określające dany typ elementu planszy
      */
+
+    // TODO: Use enums instead of using strings
 
     public static String empty = " "; //pusty element planszy
     public static String bulb = "*"; //żarówka
@@ -88,11 +90,13 @@ public class Akari {
         boolean bool = false;
         outer: for(int i = 0; i < board.length - 2; i++) {
             for(int j = 0; j < board.length - 2; j++) {
+                int bulbsCount = countBulbs(board, i + 1, j + 1);
+                String field = board[i + 1][j + 1];
                 if(board[i + 1][j + 1].equals(empty)) {
                     bool = true;
                     break outer;
                 }
-                else if(board[i + 1][j + 1].equals(wall0) && countBulbs(board, i + 1, j + 1) != 0) {
+                else if(field.equals(wall0) && bulbsCount != 0) {
                     bool = true;
                     break outer;
                 }

@@ -1,4 +1,4 @@
-package akari;
+package akari.model;
 
 public class SolverTest extends Akari{
     public static void main(String[] args) {

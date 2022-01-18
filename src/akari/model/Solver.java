@@ -1,9 +1,12 @@
-package akari;
+package akari.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Solver extends Akari {
+    public Solver(final Akari akari) {
+
+    }
     //metoda sprawdzająca czy pole jest ścianą
     public static boolean isNotWall(String[][] board, int row, int column) {
         return !(board[row][column].equals(wall) || board[row][column].equals(wall0) || board[row][column].equals(wall1)

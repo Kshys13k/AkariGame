@@ -1,4 +1,4 @@
-package akari;
+package akari.model;
 
 public class SuspectedCell {
     private int x;
