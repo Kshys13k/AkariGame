@@ -241,7 +241,6 @@ public class Akari {
             }
             for(int i = 0; up; i++) {
                 up = unLight(board, row - i - 1, column);
-                // xd
             }
             for(int i = 0; down; i++) {
                 down = unLight(board, row + i + 1, column);
