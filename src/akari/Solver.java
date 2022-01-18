@@ -109,7 +109,9 @@ public class Solver extends Akari {
             if(pointer<=limit){
                 if(canBeTurnedOn(board, x, y)){
                     placeBulb(board,x,y);
-                    if(!endGame(board)) break;
+                    if(!endGame(board)) {
+                        break;
+                    }
                 }
             }if(pointer==limit){
                 if(board[x][y].equals(bulb)) placeBulb(board,x,y);

@@ -23,8 +23,10 @@ public class Main {
 
         panel.setLayout(null);
 
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+ //       panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         panel.setBackground(Color.GRAY);
+
+//        GridLayout
 
         JLabel[][] pictures = new JLabel[10][10];
         final boolean[][] color = new boolean[X][Y];
@@ -66,7 +68,9 @@ public class Main {
 
         frame.add(panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(409,409);
+//        frame.setSize(409,409);
+        panel.setSize(409,409);
+        frame.pack();
         frame.setVisible(true);
 
 
