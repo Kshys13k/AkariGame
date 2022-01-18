@@ -17,16 +17,16 @@ public class Akari {
     Zmienne określające dany typ elementu planszy
      */
 
-    public static String empty = "[ ]"; //pusty element planszy
-    public static String bulb = "[*]"; //żarówka
-    public static String lighted = "[.]"; //pole oświetlone przez jedną żarówkę
-    public static String lighted2 = "[:]"; //pole oświetlone przez dwie żarówki
-    public static String wall = "[#]"; //ściana
-    public static String wall0 = "[0]"; //ściana z 0
-    public static String wall1 = "[1]"; //ściana z 1
-    public static String wall2 = "[2]"; //ściana z 2
-    public static String wall3 = "[3]"; //ściana z 3
-    public static String wall4 = "[4]"; //ściana z 4
+    public static String empty = " "; //pusty element planszy
+    public static String bulb = "*"; //żarówka
+    public static String lighted = "."; //pole oświetlone przez jedną żarówkę
+    public static String lighted2 = ":"; //pole oświetlone przez dwie żarówki
+    public static String wall = "#"; //ściana
+    public static String wall0 = "0"; //ściana z 0
+    public static String wall1 = "1"; //ściana z 1
+    public static String wall2 = "2"; //ściana z 2
+    public static String wall3 = "3"; //ściana z 3
+    public static String wall4 = "4"; //ściana z 4
     public static String alphabet = "abcdefghijklmnopqrstuvwxyz"; /* alfabet, przydatny do
     orientacji na planszy
      */
@@ -159,7 +159,7 @@ public class Akari {
                 System.out.print(i + 1 + " ");
             }
             for(int j = 0; j < board.length - 2; j++) {
-                System.out.print(board[i + 1][j + 1]);
+                System.out.print("[" + board[i + 1][j + 1] + "]");
             }
             System.out.println();
         }

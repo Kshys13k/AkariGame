@@ -24,58 +24,58 @@ public class Solver extends Akari {
         //jeśli przekroczymy limit żarówek na sąsiedniej ścianie z numerem to nie można:
         //(x+1)(y)
         if(board[x+1][y].equals(wall1)){
-            if(countBulbs(board,x+1,y+1)>=1) return false;
+            if(countBulbs(board,x+1,y)>=1) return false;
         }
         if(board[x+1][y].equals(wall2)){
-            if(countBulbs(board,x+1,y+1)>=2) return false;
+            if(countBulbs(board,x+1,y)>=2) return false;
         }
         if(board[x+1][y].equals(wall3)){
-            if(countBulbs(board,x+1,y+1)>=3) return false;
+            if(countBulbs(board,x+1,y)>=3) return false;
         }
         if(board[x+1][y].equals(wall4)){
-            if(countBulbs(board,x+1,y+1)>=4) return false;
+            if(countBulbs(board,x+1,y)>=4) return false;
         }
 
         //(x)(y-1)
         if(board[x][y-1].equals(wall1)){
-            if(countBulbs(board,x+1,y-1)>=1) return false;
+            if(countBulbs(board,x,y-1)>=1) return false;
         }
         if(board[x][y-1].equals(wall2)){
-            if(countBulbs(board,x+1,y-1)>=2) return false;
+            if(countBulbs(board,x,y-1)>=2) return false;
         }
         if(board[x][y-1].equals(wall3)){
-            if(countBulbs(board,x+1,y-1)>=3) return false;
+            if(countBulbs(board,x,y-1)>=3) return false;
         }
         if(board[x][y-1].equals(wall4)){
-            if(countBulbs(board,x+1,y-1)>=4) return false;
+            if(countBulbs(board,x,y-1)>=4) return false;
         }
 
         //(x-1)
         if(board[x-1][y].equals(wall1)){
-            if(countBulbs(board,x+1,y+1)>=1) return false;
+            if(countBulbs(board,x-1,y)>=1) return false;
         }
         if(board[x-1][y].equals(wall2)){
-            if(countBulbs(board,x+1,y+1)>=2) return false;
+            if(countBulbs(board,x-1,y)>=2) return false;
         }
         if(board[x-1][y].equals(wall3)){
-            if(countBulbs(board,x+1,y+1)>=3) return false;
+            if(countBulbs(board,x-1,y)>=3) return false;
         }
         if(board[x-1][y].equals(wall4)){
-            if(countBulbs(board,x+1,y+1)>=4) return false;
+            if(countBulbs(board,x-1,y)>=4) return false;
         }
 
         //(x)(y+1)
         if(board[x][y+1].equals(wall1)){
-            if(countBulbs(board,x+1,y-1)>=1) return false;
+            if(countBulbs(board,x,y+1)>=1) return false;
         }
         if(board[x][y+1].equals(wall2)){
-            if(countBulbs(board,x+1,y-1)>=2) return false;
+            if(countBulbs(board,x,y+1)>=2) return false;
         }
         if(board[x][y+1].equals(wall3)){
-            if(countBulbs(board,x+1,y-1)>=3) return false;
+            if(countBulbs(board,x,y+1)>=3) return false;
         }
         if(board[x][y+1].equals(wall4)){
-            if(countBulbs(board,x+1,y-1)>=4) return false;
+            if(countBulbs(board,x,y+1)>=4) return false;
         }
         return true;
     }
@@ -100,7 +100,7 @@ public class Solver extends Akari {
         for(;;){
             System.out.println("\n"+pointer);
             try {
-                Thread.sleep(500);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
