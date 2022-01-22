@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.concurrent.TimeUnit;
+
 
 public class Main {
     public static void main(String[] args)  {
@@ -13,20 +13,37 @@ public class Main {
         int Y = 10;
         JFrame frame = new JFrame();
         JPanel panel  = new JPanel();
-        frame.getContentPane();
-
+        JPanel panel2 = new JPanel();
+ //       frame.getContentPane();
+        frame.setResizable(false);
         ImageIcon tile1 = new ImageIcon("graphics/test_tile1.png");
         ImageIcon tile2 = new ImageIcon("graphics/test_tile2.png");
 
 
         Dimension size = new Dimension(40,40);
 
-        panel.setLayout(null);
+        frame.setSize(409,500);
 
- //       panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+   //     panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         panel.setBackground(Color.GRAY);
+        panel2.setBackground(Color.GRAY);
+        frame.setBackground(Color.GRAY);
 
-//        GridLayout
+        BorderLayout main = new BorderLayout();
+        GridLayout test = new GridLayout(10,10,1,1);
+        GridLayout test2 = new GridLayout(1,3,1,10);
+        frame.setLayout(main);
+
+
+        panel2.add(new JLabel("1"));
+        panel2.add(new JLabel("2"));
+        panel2.add(new JLabel("3"));
+
+
+        panel.setLayout(test);
+        panel2.setLayout(test2);
+        panel2.setSize(400,100);
+
 
         JLabel[][] pictures = new JLabel[10][10];
         final boolean[][] color = new boolean[X][Y];
@@ -57,16 +74,9 @@ public class Main {
             }
         }
 
+        frame.add(panel,BorderLayout.NORTH);
+        frame.add(panel2,BorderLayout.SOUTH);
 
-
-
-
-
-
-
-
-
-        frame.add(panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        frame.setSize(409,409);
         panel.setSize(409,409);

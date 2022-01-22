@@ -7,6 +7,11 @@ public class Solver extends Akari {
     public Solver(final Akari akari) {
 
     }
+
+    public Solver() {
+
+    }
+
     //metoda sprawdzająca czy pole jest ścianą
     public static boolean isNotWall(String[][] board, int row, int column) {
         return !(board[row][column].equals(wall) || board[row][column].equals(wall0) || board[row][column].equals(wall1)
