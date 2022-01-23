@@ -17,34 +17,35 @@ public class Akari {
     Zmienne określające dany typ elementu planszy
      */
 
-    // TODO: Use enums instead of using strings
+    public enum Field {
+        EMPTY,
+        BULB,
+        LIGHTED,
+        LIGHTED2,
+        WALL,
+        WALL0,
+        WALL1,
+        WALL2,
+        WALL3,
+        WALL4,
+    }
 
-    public static String empty = " "; //pusty element planszy
-    public static String bulb = "*"; //żarówka
-    public static String lighted = "."; //pole oświetlone przez jedną żarówkę
-    public static String lighted2 = ":"; //pole oświetlone przez dwie żarówki
-    public static String wall = "#"; //ściana
-    public static String wall0 = "0"; //ściana z 0
-    public static String wall1 = "1"; //ściana z 1
-    public static String wall2 = "2"; //ściana z 2
-    public static String wall3 = "3"; //ściana z 3
-    public static String wall4 = "4"; //ściana z 4
     public static String alphabet = "abcdefghijklmnopqrstuvwxyz"; /* alfabet, przydatny do
     orientacji na planszy
      */
 
     //metoda umożliwiająca wprowadzenie przez użytkownika wielkości planszy
-    public static int boardSize() {
+    public int boardSize() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("ENTER BOARD SIZE (1 - 26): ");
         return scanner.nextInt() + 2;
     }
 
     //metoda resetująca planszę, usuwa wszystkie żarówki z planszy
-    public static void reset(String[][] board) {
+    public void reset(Field[][] board) {
         for(int i = 0; i < board.length - 2; i++) {
             for(int j = 0; j < board.length - 2; j++) {
-                if(board[i + 1][j + 1].equals(bulb)) {
+                if(board[i + 1][j + 1] == Field.BULB) {
                     placeBulb(board, i + 1, j + 1);
                 }
             }
@@ -52,32 +53,32 @@ public class Akari {
     }
 
     //metoda wyświetla instrukcję
-    public static void intro() {
+    public void intro() {
         System.out.println("AKARI\nTO PLACE/UNPLACE A BULB TYPE COORDINATES OF A CELL (FOR EXAMPLE: d2)");
         System.out.println("TYPE reset TO RESET THE BOARD");
         System.out.println("TYPE exit TO EXIT");
     }
 
     //metoda ta wyświetla planszę i napis "YOU WON!"
-    public static void winGame(String[][] board) {
+    public void winGame(Field[][] board) {
         printBoard(board);
         System.out.println("YOU WON!");
     }
 
     //zlicza wszystkie żarówki stykające się z danym polem,
     //przydatne w określeniu liczby żarówek wokół pól z numerami
-    public static int countBulbs(String[][] board, int row, int column) {
+    public int countBulbs(Field[][] board, int row, int column) {
         int counter = 0;
-        if(board[row][column - 1].equals(bulb)) {
+        if(board[row][column - 1] == Field.BULB) {
             counter++;
         }
-        if(board[row][column + 1].equals(bulb)) {
+        if(board[row][column + 1] == Field.BULB) {
             counter++;
         }
-        if(board[row - 1][column].equals(bulb)) {
+        if(board[row - 1][column] == Field.BULB) {
             counter++;
         }
-        if(board[row + 1][column].equals(bulb)) {
+        if(board[row + 1][column] == Field.BULB) {
             counter++;
         }
         return counter;
@@ -86,33 +87,34 @@ public class Akari {
     //metoda sprawdza czy spełnione są warunki niezbędne do ukończenia gry,
     //w przypadku spełnienia tych warunków zwraca false,
     //w przeciwnym wypadku, tj. gdy któryś z warunków nie jest spełniony zwraca true
-    public static boolean endGame(String[][] board) {
+    public boolean endGame(Field[][] board) {
+        Akari akari = new Akari();
         boolean bool = false;
         outer: for(int i = 0; i < board.length - 2; i++) {
             for(int j = 0; j < board.length - 2; j++) {
-                int bulbsCount = countBulbs(board, i + 1, j + 1);
-                String field = board[i + 1][j + 1];
-                if(board[i + 1][j + 1].equals(empty)) {
+                int bulbsCount = akari.countBulbs(board, i + 1, j + 1);
+                Field field = board[i + 1][j + 1];
+                if(field == Field.EMPTY) {
                     bool = true;
                     break outer;
                 }
-                else if(field.equals(wall0) && bulbsCount != 0) {
+                else if(field == Field.WALL0 && bulbsCount != 0) {
                     bool = true;
                     break outer;
                 }
-                else if(board[i + 1][j + 1].equals(wall1) && countBulbs(board, i + 1, j + 1) != 1) {
+                else if(field == Field.WALL1 && bulbsCount != 1) {
                     bool = true;
                     break outer;
                 }
-                else if(board[i + 1][j + 1].equals(wall2) && countBulbs(board, i + 1, j + 1) != 2) {
+                else if(field == Field.WALL2 && bulbsCount != 2) {
                     bool = true;
                     break outer;
                 }
-                else if(board[i + 1][j + 1].equals(wall3) && countBulbs(board, i + 1, j + 1) != 3) {
+                else if(field == Field.WALL3 && bulbsCount != 3) {
                     bool = true;
                     break outer;
                 }
-                else if(board[i + 1][j + 1].equals(wall4) && countBulbs(board, i + 1, j + 1) != 4) {
+                else if(field == Field.WALL4 && bulbsCount != 4) {
                     bool = true;
                     break outer;
                 }
@@ -125,7 +127,8 @@ public class Akari {
     //pola wpisuje się poprzez podanie litery kolumny i numeru rzędu (np. d2)
     //po wpisaniu reset plansza się resetuje
     //po wpisaniu exit program wyłącza się
-    public static void input(String[][] board) {
+    public void input(Field[][] board) {
+        Akari akari = new Akari();
         Scanner scanner = new Scanner(System.in);
         System.out.println("SELECT CELL: ");
         String cell = scanner.nextLine();
@@ -133,10 +136,10 @@ public class Akari {
             System.exit(0);
         }
         else if(cell.equals("reset")) {
-            reset(board);
+            akari.reset(board);
         }
         else {
-            int row = Integer.parseInt(cell.substring(1, 2));
+            int row = Integer.parseInt(cell.substring(1));
             int column = 1;
             for(int i = 0; i < alphabet.length(); i++) {
                 if(cell.substring(0, 1).equals(alphabet.substring(i, i + 1))) {
@@ -144,12 +147,12 @@ public class Akari {
                 }
                 column++;
             }
-            placeBulb(board, row, column);
+            akari.placeBulb(board, row, column);
         }
     }
 
     //metoda, która wywołuje planszę
-    public static void printBoard(String[][] board) {
+    public void printBoard(Field[][] board) {
         System.out.print("   ");
         for(int i = 0; i < board.length - 2; i++) {
             System.out.print(" " + alphabet.charAt(i) + " ");
@@ -163,37 +166,51 @@ public class Akari {
                 System.out.print(i + 1 + " ");
             }
             for(int j = 0; j < board.length - 2; j++) {
-                System.out.print("[" + board[i + 1][j + 1] + "]");
+                Field field = board[i + 1][j + 1];
+                String fieldAsString = switch(field) {
+                    case EMPTY -> " ";
+                    case BULB -> "*";
+                    case LIGHTED -> ".";
+                    case LIGHTED2 -> ":";
+                    case WALL -> "#";
+                    case WALL0 -> "0";
+                    case WALL1 -> "1";
+                    case WALL2 -> "2";
+                    case WALL3 -> "3";
+                    case WALL4 -> "4";
+                };
+                System.out.print("[" + fieldAsString + "]");
             }
             System.out.println();
         }
     }
 
     //lightUp zmienia pola nieoświetlone w oświetlone
-    public static void lightUp(String[][] board, int row, int column) {
-        if(board[row][column].equals(empty)) {
-            board[row][column] = lighted;
+    public void lightUp(Field[][] board, int row, int column) {
+        if(board[row][column] == Field.EMPTY) {
+            board[row][column] = Field.LIGHTED;
         }
-        else if(board[row][column].equals(lighted)) {
-            board[row][column] = lighted2;
+        else if(board[row][column] == Field.LIGHTED) {
+            board[row][column] = Field.LIGHTED2;
         }
     }
 
     //lightDown zmienia pola oświetlone w nieoświetlone
-    public static void lightDown(String[][] board, int row, int column) {
-        if(board[row][column].equals(lighted2)) {
-            board[row][column] = lighted;
+    public void lightDown(Field[][] board, int row, int column) {
+        if(board[row][column] == Field.LIGHTED2) {
+            board[row][column] = Field.LIGHTED;
         }
-        else if(board[row][column].equals(lighted)) {
-            board[row][column] = empty;
+        else if(board[row][column] == Field.LIGHTED) {
+            board[row][column] = Field.EMPTY;
         }
     }
 
     //metoda sprawdza czy pole jest oświetlone i jeżeli nie jest to je oświetla i zwraca true
     //zwraca false w przeciwnym wypadku
-    public static boolean light(String[][] board, int row, int column) {
-        if(board[row][column].equals(empty) || board[row][column].equals(lighted)) {
-            lightUp(board, row, column);
+    public boolean light(Field[][] board, int row, int column) {
+        Akari akari = new Akari();
+        if(board[row][column] == Field.EMPTY || board[row][column] == Field.LIGHTED) {
+            akari.lightUp(board, row, column);
             return true;
         }
         else {
@@ -203,9 +220,10 @@ public class Akari {
 
     //metoda sprawdza czy pole jest oświetlone i jeżeli jest to je odświetla i zwraca true
     //zwraca false w przeciwnym wypadku
-    public static boolean unLight(String[][] board, int row, int column) {
-        if(board[row][column].equals(lighted) || board[row][column].equals(lighted2)) {
-            lightDown(board, row, column);
+    public boolean unLight(Field[][] board, int row, int column) {
+        Akari akari = new Akari();
+        if(board[row][column] == Field.LIGHTED || board[row][column] == Field.LIGHTED2) {
+            akari.lightDown(board, row, column);
             return true;
         }
         else {
@@ -215,39 +233,40 @@ public class Akari {
 
     //metoda umieszcza żarówkę na danym polu i oświetla wszystkie pola wokół
     //metoda również usuwa żarówkę z danego pola i odświetla wszystkie pola wokół
-    public static void placeBulb(String[][] board, int row, int column) {
+    public void placeBulb(Field[][] board, int row, int column) {
+        Akari akari = new Akari();
         boolean left = true;
         boolean right = true;
         boolean up = true;
         boolean down = true;
-        if(board[row][column].equals(empty)) {
-            board[row][column] = bulb;
+        if(board[row][column] == Field.EMPTY) {
+            board[row][column] = Field.BULB;
             for(int i = 0; left; i++) {
-                left = light(board, row, column - i - 1);
+                left = akari.light(board, row, column - i - 1);
             }
             for(int i = 0; right; i++) {
-                right = light(board, row, column + i + 1);
+                right = akari.light(board, row, column + i + 1);
             }
             for(int i = 0; up; i++) {
-                up = light(board, row - i - 1, column);
+                up = akari.light(board, row - i - 1, column);
             }
             for(int i = 0; down; i++) {
-                down = light(board, row + i + 1, column);
+                down = akari.light(board, row + i + 1, column);
             }
         }
-        else if(board[row][column].equals(bulb)) {
-            board[row][column] = empty;
+        else if(board[row][column] == Field.BULB) {
+            board[row][column] = Field.EMPTY;
             for(int i = 0; left; i++) {
-                left = unLight(board, row, column - i - 1);
+                left = akari.unLight(board, row, column - i - 1);
             }
             for(int i = 0; right; i++) {
-                right = unLight(board, row, column + i + 1);
+                right = akari.unLight(board, row, column + i + 1);
             }
             for(int i = 0; up; i++) {
-                up = unLight(board, row - i - 1, column);
+                up = akari.unLight(board, row - i - 1, column);
             }
             for(int i = 0; down; i++) {
-                down = unLight(board, row + i + 1, column);
+                down = akari.unLight(board, row + i + 1, column);
             }
         }
     }
@@ -258,12 +277,14 @@ public class Akari {
      */
 
     public static void main(String[] args) {
-        intro();
-        String[][] board = Generator.generate(boardSize());
-        while(endGame(board)) {
-            printBoard(board);
-            input(board);
+        Akari akari = new Akari();
+        Generator generator = new Generator();
+        akari.intro();
+        Field[][] board = generator.generate(akari.boardSize());
+        while(akari.endGame(board)) {
+            akari.printBoard(board);
+            akari.input(board);
         }
-        winGame(board);
+        akari.winGame(board);
     }
 }
