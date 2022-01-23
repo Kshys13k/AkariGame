@@ -30,7 +30,7 @@ public final class GameFrame extends JFrame{
         final static private ImageIcon wall0 = new ImageIcon("graphics/wall0.png");
         final static private ImageIcon wall1 = new ImageIcon("graphics/wall1.png");
         final static private ImageIcon wall2 = new ImageIcon("graphics/wall2.png");
-        final static private ImageIcon wall3 = new ImageIcon("graphics/wall3png");
+        final static private ImageIcon wall3 = new ImageIcon("graphics/wall3.png");
         final static private ImageIcon wall4 = new ImageIcon("graphics/wall4.png");
 
 
@@ -110,6 +110,8 @@ public final class GameFrame extends JFrame{
             engine.placeBulb(board,x+1,y+1);
             update();
         }
+
+        System.out.println("stop");
     }
 
 
@@ -154,6 +156,9 @@ public final class GameFrame extends JFrame{
         }
     }
 
+    /**
+     * updates all images on screen
+     */
     void update(){
         for (int i = 0; i < sizeX; i++) {
             for (int j = 0; j < sizeY; j++) {
