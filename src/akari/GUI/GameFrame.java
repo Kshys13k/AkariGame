@@ -1,6 +1,7 @@
 package akari.GUI;
 
-import akari.model.Akari;
+import akari.model.Engine;
+import akari.model.Generator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +15,9 @@ public final class GameFrame extends JFrame{
     private JPanel gamePanel = new JPanel();
     private JPanel menuPanel = new JPanel();
     private JLabel[][] cells = null;
-    private Akari akari = null;
+    private Engine.Field[][] board = null;
+    private Engine engine = null;
+    private Generator generator = new Generator();
 
     //Pictures
 
@@ -24,6 +27,7 @@ public final class GameFrame extends JFrame{
         final static private ImageIcon empty = new ImageIcon("graphics/empty.png");
         final static private ImageIcon lighted = new ImageIcon("graphics/lighted.png");
         final static private ImageIcon wall = new ImageIcon("graphics/wall.png");
+        final static private ImageIcon wall0 = new ImageIcon("graphics/wall0.png");
         final static private ImageIcon wall1 = new ImageIcon("graphics/wall1.png");
         final static private ImageIcon wall2 = new ImageIcon("graphics/wall2.png");
         final static private ImageIcon wall3 = new ImageIcon("graphics/wall3png");
@@ -31,11 +35,14 @@ public final class GameFrame extends JFrame{
 
 
 
-    public GameFrame(int sizeX, int sizeY){
+    public GameFrame(int size){
         //basic setup
-        this.sizeX = sizeX;
-        this.sizeY = sizeY;
+        this.sizeX = size;
+        this.sizeY = size;
         this.cells = new JLabel[sizeX][sizeY];
+
+        this.engine = new Engine();
+        this.board = generator.generate(size+2);
 
         // TODO: eventually future dimension setup
 
@@ -62,12 +69,9 @@ public final class GameFrame extends JFrame{
 
         //mouse listeners setup
         for (int i = 0; i < sizeX; i++) {
-
-
             for (int j = 0; j < sizeY; j++) {
                 cells[i][j] = new JLabel();
                 this.gamePanel.add(cells[i][j]);
-                cells[i][j].setIcon(this.empty);
                 int finalI = i;
                 int finalJ = j;
                 cells[i][j].addMouseListener(new MouseAdapter() {
@@ -77,10 +81,14 @@ public final class GameFrame extends JFrame{
                     }
                 });
             }
-
         }
+        update();
+
         add(gamePanel,BorderLayout.NORTH);
         add(menuPanel,BorderLayout.SOUTH);
+
+
+
     }
 
     /**
@@ -93,8 +101,14 @@ public final class GameFrame extends JFrame{
         JLabel cell = cells[x][y];
         if(cell.getIcon() == empty){
             cell.setIcon(bulb);
+
+            engine.placeBulb(board,x+1,y+1);
+            update();
+
         }else if(cell.getIcon() == bulb){
             cell.setIcon(empty);
+            engine.placeBulb(board,x+1,y+1);
+            update();
         }
     }
 
@@ -140,6 +154,25 @@ public final class GameFrame extends JFrame{
         }
     }
 
+    void update(){
+        for (int i = 0; i < sizeX; i++) {
+            for (int j = 0; j < sizeY; j++) {
+                ImageIcon icon = switch (board[i+1][j+1]) {
+                    case WALL -> this.wall;
+                    case BULB -> this.bulb;
+                    case EMPTY -> this.empty;
+                    case LIGHTED, LIGHTED2 -> this.lighted;
+                    case WALL0 -> this.wall0;
+                    case WALL1 -> this.wall1;
+                    case WALL2 -> this.wall2;
+                    case WALL3 -> this.wall3;
+                    case WALL4 -> this.wall4;
 
+                    default -> throw new IllegalStateException("Unexpected value: " + board[i][j]);
+                };
+                cells[i][j].setIcon(icon);
+            }
+        }
+    }
 
 }
