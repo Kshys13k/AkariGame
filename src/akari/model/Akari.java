@@ -54,7 +54,7 @@ public class Akari {
 
     //metoda wyświetla instrukcję
     public void intro() {
-        System.out.println("AKARI\nTO PLACE/UNPLACE A BULB TYPE COORDINATES OF A CELL (FOR EXAMPLE: d2)");
+        System.out.println("AKARI\nTO PLACE/DISPLACE A BULB TYPE COORDINATES OF A CELL (FOR EXAMPLE: d2)");
         System.out.println("TYPE reset TO RESET THE BOARD");
         System.out.println("TYPE exit TO EXIT");
     }
