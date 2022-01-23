@@ -152,10 +152,12 @@ public class Akari {
     }
 
     //metoda, która wywołuje planszę
-    public void printBoard(Field[][] board) {
+    public char[][] printBoard(Field[][] board) {
+        char[][] result = new char[board.length-2][board.length-2];
         System.out.print("   ");
         for(int i = 0; i < board.length - 2; i++) {
             System.out.print(" " + alphabet.charAt(i) + " ");
+
         }
         System.out.println();
         for(int i = 0; i < board.length - 2; i++) {
@@ -167,7 +169,8 @@ public class Akari {
             }
             for(int j = 0; j < board.length - 2; j++) {
                 Field field = board[i + 1][j + 1];
-                String fieldAsString = switch(field) {
+                String fieldAsString = "";
+                fieldAsString = switch(field) {
                     case EMPTY -> " ";
                     case BULB -> "*";
                     case LIGHTED, LIGHTED2 -> ".";
@@ -179,9 +182,14 @@ public class Akari {
                     case WALL4 -> "4";
                 };
                 System.out.print("[" + fieldAsString + "]");
+
+                result[i][j] = fieldAsString.charAt(0);
+
             }
             System.out.println();
+
         }
+        return result;
     }
 
     //lightUp zmienia pola nieoświetlone w oświetlone
@@ -281,7 +289,16 @@ public class Akari {
         akari.intro();
         Field[][] board = generator.generate(akari.boardSize());
         while(akari.endGame(board)) {
-            akari.printBoard(board);
+            for (char[] string:
+                 akari.printBoard(board)) {
+                if (string != null) {
+                    for (char c : string) {
+                        System.out.printf(String.valueOf(c));
+                    }
+                    System.out.println();
+                }
+            }
+
             akari.input(board);
         }
         akari.winGame(board);

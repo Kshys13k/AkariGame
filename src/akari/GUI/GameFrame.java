@@ -1,5 +1,7 @@
 package akari.GUI;
 
+import akari.model.Akari;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -12,6 +14,7 @@ public final class GameFrame extends JFrame{
     private JPanel gamePanel = new JPanel();
     private JPanel menuPanel = new JPanel();
     private JLabel[][] cells = null;
+    private Akari akari = null;
 
     //Pictures
 
