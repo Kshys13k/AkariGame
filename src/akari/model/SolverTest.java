@@ -1,16 +1,15 @@
 package akari.model;
 
-public class SolverTest extends Akari{
+public class SolverTest extends Engine{
     public static void main(String[] args) {
-        Akari akari = new Akari();
+        Engine engine = new Engine();
         Generator generator = new Generator();
         Solver solver = new Solver();
-        Field[][] board = generator.generate(akari.boardSize());
-
-        akari.printBoard(board);
+        Field[][] board = generator.generate(engine.boardSize());
+        engine.printBoard(board);
         Field[][] solvedboard = solver.solve(board);
         System.out.println("Rozwiązanie: ");
-        akari.printBoard(solvedboard);
+        engine.printBoard(solvedboard);
         System.out.println();
     }
 }

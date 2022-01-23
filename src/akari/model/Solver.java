@@ -3,7 +3,7 @@ package akari.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Solver extends Akari {
+public class Solver extends Engine {
     public Solver(final Akari akari) {
 
     }
@@ -27,78 +27,75 @@ public class Solver extends Akari {
 
     //sprawdza czy można zaświecić podejrzane pole
     public boolean canBeTurnedOn(Field[][] board, int x, int y){
-        Akari akari = new Akari();
         //jeśli pole podświetlone lub zawiera żarówkę to nie można:
         if(board[x][y] == Field.LIGHTED || board[x][y] == Field.LIGHTED2 || board[x][y] == Field.BULB) return false;
         //jeśli przekroczymy limit żarówek na sąsiedniej ścianie z numerem to nie można:
         //(x+1)(y)
         if(board[x+1][y] == Field.WALL1){
-            if(akari.countBulbs(board,x+1,y)>=1) return false;
+            if(countBulbs(board,x+1,y)>=1) return false;
         }
         if(board[x+1][y] == Field.WALL2){
-            if(akari.countBulbs(board,x+1,y)>=2) return false;
+            if(countBulbs(board,x+1,y)>=2) return false;
         }
         if(board[x+1][y] == Field.WALL3){
-            if(akari.countBulbs(board,x+1,y)>=3) return false;
+            if(countBulbs(board,x+1,y)>=3) return false;
         }
         if(board[x+1][y] == Field.WALL4){
-            if(akari.countBulbs(board,x+1,y)>=4) return false;
+            if(countBulbs(board,x+1,y)>=4) return false;
         }
 
         //(x)(y-1)
         if(board[x][y-1] == Field.WALL1){
-            if(akari.countBulbs(board,x,y-1)>=1) return false;
+            if(countBulbs(board,x,y-1)>=1) return false;
         }
         if(board[x][y-1] == Field.WALL2){
-            if(akari.countBulbs(board,x,y-1)>=2) return false;
+            if(countBulbs(board,x,y-1)>=2) return false;
         }
         if(board[x][y-1] == Field.WALL3){
-            if(akari.countBulbs(board,x,y-1)>=3) return false;
+            if(countBulbs(board,x,y-1)>=3) return false;
         }
         if(board[x][y-1] == Field.WALL4){
-            if(akari.countBulbs(board,x,y-1)>=4) return false;
+            if(countBulbs(board,x,y-1)>=4) return false;
         }
 
         //(x-1)
         if(board[x-1][y] == Field.WALL1){
-            if(akari.countBulbs(board,x-1,y)>=1) return false;
+            if(countBulbs(board,x-1,y)>=1) return false;
         }
         if(board[x-1][y] == Field.WALL2){
-            if(akari.countBulbs(board,x-1,y)>=2) return false;
+            if(countBulbs(board,x-1,y)>=2) return false;
         }
         if(board[x-1][y] == Field.WALL3){
-            if(akari.countBulbs(board,x-1,y)>=3) return false;
+            if(countBulbs(board,x-1,y)>=3) return false;
         }
         if(board[x-1][y] == Field.WALL4){
-            if(akari.countBulbs(board,x-1,y)>=4) return false;
+            if(countBulbs(board,x-1,y)>=4) return false;
         }
 
         //(x)(y+1)
         if(board[x][y+1] == Field.WALL1){
-            if(akari.countBulbs(board,x,y+1)>=1) return false;
+            if(countBulbs(board,x,y+1)>=1) return false;
         }
         if(board[x][y+1] == Field.WALL2){
-            if(akari.countBulbs(board,x,y+1)>=2) return false;
+            if(countBulbs(board,x,y+1)>=2) return false;
         }
         if(board[x][y+1] == Field.WALL3){
-            if(akari.countBulbs(board,x,y+1)>=3) return false;
+            if(countBulbs(board,x,y+1)>=3) return false;
         }
         if(board[x][y+1] == Field.WALL4){
-            if(akari.countBulbs(board,x,y+1)>=4) return false;
+            if(countBulbs(board,x,y+1)>=4) return false;
         }
         return true;
     }
 
 
     public Field[][] solve(Field[][] unsolvedBoard){
-        Akari akari = new Akari();
-        Solver solver = new Solver();
         //wyznaczanie miejsc gdzie mozna postawic żarówkę:
         Field[][] board= unsolvedBoard;
         List<SuspectedCell> listOfSuspectedCells= new ArrayList<SuspectedCell>();
         for(int i = 0; i < board.length; i++) {
             for(int j = 0; j < board.length; j++) {
-                if(solver.isNotWall(board,i,j) && solver.isNotNextTo0(board,i,j)) {
+                if(isNotWall(board,i,j) && isNotNextTo0(board,i,j)) {
                     listOfSuspectedCells.add(new SuspectedCell(i,j));
                 }
             }
@@ -118,24 +115,24 @@ public class Solver extends Akari {
             x=listOfSuspectedCells.get(pointer).getX();
             y=listOfSuspectedCells.get(pointer).getY();
             if(pointer<=limit){
-                if(solver.canBeTurnedOn(board, x, y)){
-                    akari.placeBulb(board,x,y);
-                    if(!akari.endGame(board)) {
+                if(canBeTurnedOn(board, x, y)){
+                    placeBulb(board,x,y);
+                    if(!endGame(board)) {
                         break;
                     }
                 }
             }if(pointer==limit){
-                if(board[x][y] == Field.BULB) akari.placeBulb(board,x,y);
+                if(board[x][y] == Field.BULB) placeBulb(board,x,y);
                 for(;;){
                     pointer--;
                     if(board[x][y] == Field.BULB) {
-                        akari.placeBulb(board,x,y);
+                        placeBulb(board,x,y);
                         break;
                     }
                     if(pointer==0) return board;
                 }
             }
-            akari.printBoard(board);
+            printBoard(board);
            pointer++;
         }
             return board;

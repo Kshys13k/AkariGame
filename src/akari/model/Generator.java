@@ -8,7 +8,7 @@ package akari.model;
 
 import java.util.Random;
 
-public class Generator extends Akari {
+public class Generator extends Engine {
 
     //metoda sprawdza czy dane pole jest ścianą i zwraca true jeżeli jest, a false jeżeli nie jest
     public boolean isWall(Field[][] board, int row, int column) {
@@ -19,18 +19,17 @@ public class Generator extends Akari {
 
     //metoda zlicza wszystkie ściany stykające się z danym polem
     public int countWalls(Field[][] board, int row, int column) {
-        Generator generator = new Generator();
         int counter = 0;
-        if(generator.isWall(board, row, column - 1)) {
+        if(isWall(board, row, column - 1)) {
             counter++;
         }
-        if(generator.isWall(board, row, column + 1)) {
+        if(isWall(board, row, column + 1)) {
             counter++;
         }
-        if(generator.isWall(board, row - 1, column)) {
+        if(isWall(board, row - 1, column)) {
             counter++;
         }
-        if(generator.isWall(board, row + 1, column)) {
+        if(isWall(board, row + 1, column)) {
             counter++;
         }
         return counter;
@@ -51,8 +50,6 @@ public class Generator extends Akari {
 
     //metoda generująca planszę o wymiarach (n - 2) X (n - 2)
     public Field[][] generate(int n) {
-        Akari akari = new Akari();
-        Generator generator = new Generator();
 
         //tablica n X n, pierwsze i ostatnie rzędy i kolumny są ścianami, są one pomijane
         //w metodzie printBoard(); przydatne w innych metodach
@@ -79,7 +76,7 @@ public class Generator extends Akari {
 
         //pętla, która losowo umieszcza ściany na planszy
         for(int i = 0; i < walls; i++) {
-            int position = random.nextInt(generator.countEmpty(board)); //pozycja ściany na planszy
+            int position = random.nextInt(countEmpty(board)); //pozycja ściany na planszy
             int counter = 0;
             outer: for(int j = 0; j < board.length - 2; j++) {
                 for(int k = 0; k < board.length - 2; k++) {
@@ -95,14 +92,14 @@ public class Generator extends Akari {
         }
 
         //pętla, która losowo umieszcza żarówki na planszy
-        while(generator.countEmpty(board) > 0) {
-            int position = random.nextInt(generator.countEmpty(board)); //pozycja żarówki na planszy
+        while(countEmpty(board) > 0) {
+            int position = random.nextInt(countEmpty(board)); //pozycja żarówki na planszy
             int counter = 0;
             outer: for(int i = 0; i < board.length - 2; i++) {
                 for(int j = 0; j < board.length - 2; j++) {
                     if(board[i + 1][j + 1] == Field.EMPTY) {
                         if(position == counter) {
-                            akari.placeBulb(board, i + 1, j + 1);
+                            placeBulb(board, i + 1, j + 1);
                             break outer;
                         }
                         counter++;
@@ -115,11 +112,11 @@ public class Generator extends Akari {
         for(int j = 0; j < board.length - 2; j++) {
             for(int k = 0; k < board.length - 2; k++) {
                if(board[j + 1][k + 1] == Field.WALL) {
-                   if(generator.countWalls(board, j + 1, k + 1) == 4) {
+                   if(countWalls(board, j + 1, k + 1) == 4) {
                        continue;
                    }
                    boolean toNumber = random.nextBoolean();
-                   int wallNumber = akari.countBulbs(board, j + 1, k + 1);
+                   int wallNumber = countBulbs(board, j + 1, k + 1);
                    switch(wallNumber) {
                        case 0: {
                            if(toNumber) {
@@ -155,7 +152,7 @@ public class Generator extends Akari {
                }
             }
         }
-        akari.reset(board);
+        reset(board);
         return board;
     }
 }
