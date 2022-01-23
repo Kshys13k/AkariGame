@@ -170,8 +170,7 @@ public class Akari {
                 String fieldAsString = switch(field) {
                     case EMPTY -> " ";
                     case BULB -> "*";
-                    case LIGHTED -> ".";
-                    case LIGHTED2 -> ":";
+                    case LIGHTED, LIGHTED2 -> ".";
                     case WALL -> "#";
                     case WALL0 -> "0";
                     case WALL1 -> "1";
