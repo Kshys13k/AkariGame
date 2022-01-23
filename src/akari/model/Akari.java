@@ -12,7 +12,7 @@ package akari.model;
 import java.util.Scanner;
 
 public class Akari {
-
+    private Akari akari = new Akari();
     /*
     Zmienne określające dany typ elementu planszy
      */
@@ -88,7 +88,6 @@ public class Akari {
     //w przypadku spełnienia tych warunków zwraca false,
     //w przeciwnym wypadku, tj. gdy któryś z warunków nie jest spełniony zwraca true
     public boolean endGame(Field[][] board) {
-        Akari akari = new Akari();
         boolean bool = false;
         outer: for(int i = 0; i < board.length - 2; i++) {
             for(int j = 0; j < board.length - 2; j++) {
@@ -128,7 +127,6 @@ public class Akari {
     //po wpisaniu reset plansza się resetuje
     //po wpisaniu exit program wyłącza się
     public void input(Field[][] board) {
-        Akari akari = new Akari();
         Scanner scanner = new Scanner(System.in);
         System.out.println("SELECT CELL: ");
         String cell = scanner.nextLine();
@@ -207,7 +205,6 @@ public class Akari {
     //metoda sprawdza czy pole jest oświetlone i jeżeli nie jest to je oświetla i zwraca true
     //zwraca false w przeciwnym wypadku
     public boolean light(Field[][] board, int row, int column) {
-        Akari akari = new Akari();
         if(board[row][column] == Field.EMPTY || board[row][column] == Field.LIGHTED) {
             akari.lightUp(board, row, column);
             return true;
@@ -220,7 +217,6 @@ public class Akari {
     //metoda sprawdza czy pole jest oświetlone i jeżeli jest to je odświetla i zwraca true
     //zwraca false w przeciwnym wypadku
     public boolean unLight(Field[][] board, int row, int column) {
-        Akari akari = new Akari();
         if(board[row][column] == Field.LIGHTED || board[row][column] == Field.LIGHTED2) {
             akari.lightDown(board, row, column);
             return true;
@@ -233,7 +229,6 @@ public class Akari {
     //metoda umieszcza żarówkę na danym polu i oświetla wszystkie pola wokół
     //metoda również usuwa żarówkę z danego pola i odświetla wszystkie pola wokół
     public void placeBulb(Field[][] board, int row, int column) {
-        Akari akari = new Akari();
         boolean left = true;
         boolean right = true;
         boolean up = true;

@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Solver extends Akari {
+
+    private Akari akari = new Akari();
+    private Solver solver = new Solver();
+
     public Solver(final Akari akari) {
 
     }
@@ -27,7 +31,6 @@ public class Solver extends Akari {
 
     //sprawdza czy można zaświecić podejrzane pole
     public boolean canBeTurnedOn(Field[][] board, int x, int y){
-        Akari akari = new Akari();
         //jeśli pole podświetlone lub zawiera żarówkę to nie można:
         if(board[x][y] == Field.LIGHTED || board[x][y] == Field.LIGHTED2 || board[x][y] == Field.BULB) return false;
         //jeśli przekroczymy limit żarówek na sąsiedniej ścianie z numerem to nie można:
@@ -91,8 +94,6 @@ public class Solver extends Akari {
 
 
     public Field[][] solve(Field[][] unsolvedBoard){
-        Akari akari = new Akari();
-        Solver solver = new Solver();
         //wyznaczanie miejsc gdzie mozna postawic żarówkę:
         Field[][] board= unsolvedBoard;
         List<SuspectedCell> listOfSuspectedCells= new ArrayList<SuspectedCell>();
