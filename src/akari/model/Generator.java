@@ -9,8 +9,6 @@ package akari.model;
 import java.util.Random;
 
 public class Generator extends Akari {
-    private Akari akari = new Akari();
-    private Generator generator = new Generator();
 
     //metoda sprawdza czy dane pole jest ścianą i zwraca true jeżeli jest, a false jeżeli nie jest
     public boolean isWall(Field[][] board, int row, int column) {
@@ -21,6 +19,7 @@ public class Generator extends Akari {
 
     //metoda zlicza wszystkie ściany stykające się z danym polem
     public int countWalls(Field[][] board, int row, int column) {
+        Generator generator = new Generator();
         int counter = 0;
         if(generator.isWall(board, row, column - 1)) {
             counter++;
@@ -52,6 +51,8 @@ public class Generator extends Akari {
 
     //metoda generująca planszę o wymiarach (n - 2) X (n - 2)
     public Field[][] generate(int n) {
+        Akari akari = new Akari();
+        Generator generator = new Generator();
 
         //tablica n X n, pierwsze i ostatnie rzędy i kolumny są ścianami, są one pomijane
         //w metodzie printBoard(); przydatne w innych metodach
