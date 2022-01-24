@@ -33,9 +33,9 @@ public class Engine {
 
     //metoda resetująca planszę, usuwa wszystkie żarówki z planszy
     public void reset(Field[][] board) {
-        for(int i = 0; i < board.length - 2; i++) {
-            for(int j = 0; j < board.length - 2; j++) {
-                if(board[i + 1][j + 1] == Field.BULB) {
+        for (int i = 0; i < board.length - 2; i++) {
+            for (int j = 0; j < board.length - 2; j++) {
+                if (board[i + 1][j + 1] == Field.BULB) {
                     placeBulb(board, i + 1, j + 1);
                 }
             }
@@ -59,16 +59,16 @@ public class Engine {
     //przydatne w określeniu liczby żarówek wokół pól z numerami
     public int countBulbs(Field[][] board, int row, int column) {
         int counter = 0;
-        if(board[row][column - 1] == Field.BULB) {
+        if (board[row][column - 1] == Field.BULB) {
             counter++;
         }
-        if(board[row][column + 1] == Field.BULB) {
+        if (board[row][column + 1] == Field.BULB) {
             counter++;
         }
-        if(board[row - 1][column] == Field.BULB) {
+        if (board[row - 1][column] == Field.BULB) {
             counter++;
         }
-        if(board[row + 1][column] == Field.BULB) {
+        if (board[row + 1][column] == Field.BULB) {
             counter++;
         }
         return counter;
@@ -79,31 +79,27 @@ public class Engine {
     //w przeciwnym wypadku, tj. gdy któryś z warunków nie jest spełniony zwraca true
     public boolean endGame(Field[][] board) {
         boolean bool = false;
-        outer: for(int i = 0; i < board.length - 2; i++) {
-            for(int j = 0; j < board.length - 2; j++) {
+        outer:
+        for (int i = 0; i < board.length - 2; i++) {
+            for (int j = 0; j < board.length - 2; j++) {
                 int bulbsCount = countBulbs(board, i + 1, j + 1);
                 Field field = board[i + 1][j + 1];
-                if(field == Field.EMPTY) {
+                if (field == Field.EMPTY) {
                     bool = true;
                     break outer;
-                }
-                else if(field == Field.WALL0 && bulbsCount != 0) {
+                } else if (field == Field.WALL0 && bulbsCount != 0) {
                     bool = true;
                     break outer;
-                }
-                else if(field == Field.WALL1 && bulbsCount != 1) {
+                } else if (field == Field.WALL1 && bulbsCount != 1) {
                     bool = true;
                     break outer;
-                }
-                else if(field == Field.WALL2 && bulbsCount != 2) {
+                } else if (field == Field.WALL2 && bulbsCount != 2) {
                     bool = true;
                     break outer;
-                }
-                else if(field == Field.WALL3 && bulbsCount != 3) {
+                } else if (field == Field.WALL3 && bulbsCount != 3) {
                     bool = true;
                     break outer;
-                }
-                else if(field == Field.WALL4 && bulbsCount != 4) {
+                } else if (field == Field.WALL4 && bulbsCount != 4) {
                     bool = true;
                     break outer;
                 }
@@ -120,17 +116,15 @@ public class Engine {
         Scanner scanner = new Scanner(System.in);
         System.out.println("SELECT CELL: ");
         String cell = scanner.nextLine();
-        if(cell.equals("exit")) {
+        if (cell.equals("exit")) {
             System.exit(0);
-        }
-        else if(cell.equals("reset")) {
+        } else if (cell.equals("reset")) {
             reset(board);
-        }
-        else {
+        } else {
             int row = Integer.parseInt(cell.substring(1));
             int column = 1;
-            for(int i = 0; i < alphabet.length(); i++) {
-                if(cell.substring(0, 1).equals(alphabet.substring(i, i + 1))) {
+            for (int i = 0; i < alphabet.length(); i++) {
+                if (cell.substring(0, 1).equals(alphabet.substring(i, i + 1))) {
                     break;
                 }
                 column++;
@@ -140,25 +134,23 @@ public class Engine {
     }
 
     //metoda, która wywołuje planszę
-    public char[][] printBoard(Field[][] board) {
-        char[][] result = new char[board.length-2][board.length-2];
+    public void printBoard(Field[][] board) {
         System.out.print("   ");
-        for(int i = 0; i < board.length - 2; i++) {
+        for (int i = 0; i < board.length - 2; i++) {
             System.out.print(" " + alphabet.charAt(i) + " ");
 
         }
         System.out.println();
-        for(int i = 0; i < board.length - 2; i++) {
-            if(i < 9) {
+        for (int i = 0; i < board.length - 2; i++) {
+            if (i < 9) {
                 System.out.print(i + 1 + "  ");
-            }
-            else {
+            } else {
                 System.out.print(i + 1 + " ");
             }
-            for(int j = 0; j < board.length - 2; j++) {
+            for (int j = 0; j < board.length - 2; j++) {
                 Field field = board[i + 1][j + 1];
-                String fieldAsString = "";
-                fieldAsString = switch(field) {
+                String fieldAsString;
+                fieldAsString = switch (field) {
                     case EMPTY -> " ";
                     case BULB -> "*";
                     case LIGHTED, LIGHTED2 -> ".";
@@ -170,33 +162,27 @@ public class Engine {
                     case WALL4 -> "4";
                 };
                 System.out.print("[" + fieldAsString + "]");
-
-                result[i][j] = fieldAsString.charAt(0);
-
             }
             System.out.println();
 
         }
-        return result;
     }
 
 
     //lightUp zmienia pola nieoświetlone w oświetlone
     public void lightUp(Field[][] board, int row, int column) {
-        if(board[row][column] == Field.EMPTY) {
+        if (board[row][column] == Field.EMPTY) {
             board[row][column] = Field.LIGHTED;
-        }
-        else if(board[row][column] == Field.LIGHTED) {
+        } else if (board[row][column] == Field.LIGHTED) {
             board[row][column] = Field.LIGHTED2;
         }
     }
 
     //lightDown zmienia pola oświetlone w nieoświetlone
     public void lightDown(Field[][] board, int row, int column) {
-        if(board[row][column] == Field.LIGHTED2) {
+        if (board[row][column] == Field.LIGHTED2) {
             board[row][column] = Field.LIGHTED;
-        }
-        else if(board[row][column] == Field.LIGHTED) {
+        } else if (board[row][column] == Field.LIGHTED) {
             board[row][column] = Field.EMPTY;
         }
     }
@@ -204,11 +190,10 @@ public class Engine {
     //metoda sprawdza czy pole jest oświetlone i jeżeli nie jest to je oświetla i zwraca true
     //zwraca false w przeciwnym wypadku
     public boolean light(Field[][] board, int row, int column) {
-        if(board[row][column] == Field.EMPTY || board[row][column] == Field.LIGHTED) {
+        if (board[row][column] == Field.EMPTY || board[row][column] == Field.LIGHTED) {
             lightUp(board, row, column);
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -216,11 +201,10 @@ public class Engine {
     //metoda sprawdza czy pole jest oświetlone i jeżeli jest to je odświetla i zwraca true
     //zwraca false w przeciwnym wypadku
     public boolean unLight(Field[][] board, int row, int column) {
-        if(board[row][column] == Field.LIGHTED || board[row][column] == Field.LIGHTED2) {
+        if (board[row][column] == Field.LIGHTED || board[row][column] == Field.LIGHTED2) {
             lightDown(board, row, column);
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -232,33 +216,32 @@ public class Engine {
         boolean right = true;
         boolean up = true;
         boolean down = true;
-        if(board[row][column] == Field.EMPTY) {
+        if (board[row][column] == Field.EMPTY) {
             board[row][column] = Field.BULB;
-            for(int i = 0; left; i++) {
+            for (int i = 0; left; i++) {
                 left = light(board, row, column - i - 1);
             }
-            for(int i = 0; right; i++) {
+            for (int i = 0; right; i++) {
                 right = light(board, row, column + i + 1);
             }
-            for(int i = 0; up; i++) {
+            for (int i = 0; up; i++) {
                 up = light(board, row - i - 1, column);
             }
-            for(int i = 0; down; i++) {
+            for (int i = 0; down; i++) {
                 down = light(board, row + i + 1, column);
             }
-        }
-        else if(board[row][column] == Field.BULB) {
+        } else if (board[row][column] == Field.BULB) {
             board[row][column] = Field.EMPTY;
-            for(int i = 0; left; i++) {
+            for (int i = 0; left; i++) {
                 left = unLight(board, row, column - i - 1);
             }
-            for(int i = 0; right; i++) {
+            for (int i = 0; right; i++) {
                 right = unLight(board, row, column + i + 1);
             }
-            for(int i = 0; up; i++) {
+            for (int i = 0; up; i++) {
                 up = unLight(board, row - i - 1, column);
             }
-            for(int i = 0; down; i++) {
+            for (int i = 0; down; i++) {
                 down = unLight(board, row + i + 1, column);
             }
         }

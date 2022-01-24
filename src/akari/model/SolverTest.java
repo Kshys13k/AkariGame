@@ -7,9 +7,11 @@ public class SolverTest extends Engine{
         Solver solver = new Solver();
         Field[][] board = generator.generate(engine.boardSize());
         engine.printBoard(board);
-        Field[][] solvedboard = solver.solve(board);
+        Field[][] solvedBoard = solver.solve(board);
         System.out.println("Rozwiązanie: ");
-        engine.printBoard(solvedboard);
+        engine.printBoard(solvedBoard);
         System.out.println();
     }
 }
+/*
+ */

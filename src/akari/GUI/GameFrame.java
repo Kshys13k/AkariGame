@@ -2,182 +2,195 @@ package akari.GUI;
 
 import akari.model.Engine;
 import akari.model.Generator;
+import akari.model.Solver;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public final class GameFrame extends JFrame{
-    private int sizeX;
-    private int sizeY;
-    private Dimension dimension = null;
-    private JPanel gamePanel = new JPanel();
-    private JPanel menuPanel = new JPanel();
-    private JLabel[][] cells = null;
-    private Engine.Field[][] board = null;
-    private Engine engine = null;
-    private Generator generator = new Generator();
+public final class GameFrame extends JFrame {
+    private final int sizeX;
+    private final int sizeY;
+    private final JLabel[][] cells;
+    private final JLabel[] menu;
+    private Engine.Field[][] board;
+    private final Engine engine;
+    private boolean stillPlaying = true;
 
     //Pictures
 
-        final static private ImageIcon testTile1 = new ImageIcon("graphics/test_tile1.png");
-        final static private ImageIcon testTile2 = new ImageIcon("graphics/test_tile2.png");
-        final static private ImageIcon bulb = new ImageIcon("graphics/bulb.png");
-        final static private ImageIcon empty = new ImageIcon("graphics/empty.png");
-        final static private ImageIcon lighted = new ImageIcon("graphics/lighted.png");
-        final static private ImageIcon wall = new ImageIcon("graphics/wall.png");
-        final static private ImageIcon wall0 = new ImageIcon("graphics/wall0.png");
-        final static private ImageIcon wall1 = new ImageIcon("graphics/wall1.png");
-        final static private ImageIcon wall2 = new ImageIcon("graphics/wall2.png");
-        final static private ImageIcon wall3 = new ImageIcon("graphics/wall3.png");
-        final static private ImageIcon wall4 = new ImageIcon("graphics/wall4.png");
+    final static private ImageIcon testTile1 = new ImageIcon("graphics/test_tile1.png");
+    final static private ImageIcon testTile2 = new ImageIcon("graphics/test_tile2.png");
+    final static private ImageIcon bulb = new ImageIcon("graphics/bulb.png");
+    final static private ImageIcon empty = new ImageIcon("graphics/empty.png");
+    final static private ImageIcon lighted = new ImageIcon("graphics/lighted.png");
+    final static private ImageIcon wall = new ImageIcon("graphics/wall.png");
+    final static private ImageIcon wall0 = new ImageIcon("graphics/wall0.png");
+    final static private ImageIcon wall1 = new ImageIcon("graphics/wall1.png");
+    final static private ImageIcon wall2 = new ImageIcon("graphics/wall2.png");
+    final static private ImageIcon wall3 = new ImageIcon("graphics/wall3.png");
+    final static private ImageIcon wall4 = new ImageIcon("graphics/wall4.png");
+    final static private ImageIcon quitButton = new ImageIcon("graphics/quit_button.png");
+    final static private ImageIcon saveButton = new ImageIcon("graphics/save_button.png");
+    final static private ImageIcon solveButton = new ImageIcon("graphics/solve_button.png");
 
 
-
-    public GameFrame(int size){
+    /**
+     * Game initialization
+     *
+     * @param size size of the board is size x size
+     */
+    public GameFrame(int size) {
         //basic setup
         this.sizeX = size;
         this.sizeY = size;
         this.cells = new JLabel[sizeX][sizeY];
-
         this.engine = new Engine();
-        this.board = generator.generate(size+2);
 
-        // TODO: eventually future dimension setup
+        Generator generator = new Generator();
+        board = generator.generate(size + 2);
+
 
         //Layouts
         BorderLayout mainLayout = new BorderLayout();
-        GridLayout gameLayout = new GridLayout(sizeX,sizeY,1,1);
-        GridLayout menuLayout = new GridLayout(1,3,1,10);
+        GridLayout gameLayout = new GridLayout(sizeX, sizeY, 1, 1);
+        GridLayout menuLayout = new GridLayout(1, 3, 1, 10);
 
         //GameFrame setup
         getContentPane();
-        setTitle("Akari "+ sizeX +"x"+ sizeY);
+        setTitle("Akari " + sizeX + "x" + sizeY);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBackground(Color.GRAY);
         setLayout(mainLayout);
 
         //gamePanel setup
-        this.gamePanel.setLayout(gameLayout);
-        this.gamePanel.setBackground(Color.GRAY);
+        JPanel gamePanel = new JPanel();
+        gamePanel.setLayout(gameLayout);
+        gamePanel.setBackground(Color.GRAY);
 
-        //menuPanel setup
-        this.menuPanel.setLayout(menuLayout);
-        this.menuPanel.setBackground(Color.GRAY);
-
-        //mouse listeners setup
+        //game mouse listeners setup
         for (int i = 0; i < sizeX; i++) {
             for (int j = 0; j < sizeY; j++) {
                 cells[i][j] = new JLabel();
-                this.gamePanel.add(cells[i][j]);
+                gamePanel.add(cells[i][j]);
                 int finalI = i;
                 int finalJ = j;
                 cells[i][j].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent e) {
-                        clicked(finalI, finalJ);
+                        if (stillPlaying) {
+                            clicked(finalI, finalJ);
+                        }
                     }
                 });
             }
         }
+
+
+        //menuPanel setup
+        JPanel menuPanel = new JPanel();
+        menuPanel.setLayout(menuLayout);
+        menuPanel.setBackground(Color.GRAY);
+
+        //menu mouse listeners setup
+        menu = new JLabel[3];
+        menu[0] = new JLabel();
+        menuPanel.add(menu[0]);
+        menu[0].setIcon(quitButton);
+        menu[0].addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
+            }
+        });
+
+        menu[1] = new JLabel();
+        menuPanel.add(menu[1]);
+        menu[1].setIcon(saveButton);
+        menu[1].addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
+            }
+        });
+
+        menu[2] = new JLabel();
+        menuPanel.add(menu[2]);
+        menu[2].setIcon(solveButton);
+        menu[2].addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+                solve();
+                update();
+            }
+        });
+
+
+
         update();
 
-        add(gamePanel,BorderLayout.NORTH);
-        add(menuPanel,BorderLayout.SOUTH);
-
+        add(gamePanel, BorderLayout.NORTH);
+        add(menuPanel, BorderLayout.SOUTH);
 
 
     }
 
     /**
      * Defines what happen after single cell on board is clicked
+     *
      * @param x x coordinate
      * @param y y coordinate
      */
-    void clicked(int x, int y){
-        System.out.println(x + " " +y);
+    void clicked(int x, int y) {
+        System.out.println(x + " " + y);
         JLabel cell = cells[x][y];
-        if(cell.getIcon() == empty){
+        if (cell.getIcon() == empty) {
             cell.setIcon(bulb);
 
-            engine.placeBulb(board,x+1,y+1);
+            engine.placeBulb(board, x + 1, y + 1);
             update();
 
-        }else if(cell.getIcon() == bulb){
+        } else if (cell.getIcon() == bulb) {
             cell.setIcon(empty);
-            engine.placeBulb(board,x+1,y+1);
+            engine.placeBulb(board, x + 1, y + 1);
             update();
-        }
-
-        System.out.println("stop");
-    }
-
-
-    /**
-     *
-     * @param x
-     * @param y
-     * @param type
-     * @throws WrongCellTypeException
-     */
-    void setCell(int x, int y, char type) throws WrongCellTypeException {
-        JLabel cell = cells[x][y];
-        switch(type){
-            case ' ':
-                cell.setIcon(empty);
-                break;
-            case '*':
-                cell.setIcon(bulb);
-                break;
-            case '.':
-            case ':':
-                cell.setIcon(lighted);
-                break;
-            case '#':
-                cell.setIcon(wall);
-                break;
-            case '1':
-                cell.setIcon(wall1);
-                break;
-            case '2':
-                cell.setIcon(wall2);
-                break;
-            case '3':
-                cell.setIcon(wall3);
-                break;
-            case '4':
-                cell.setIcon(wall4);
-                break;
-            default:
-                    throw new WrongCellTypeException("Cell types are expressed as one of the following characters: ' ', '*', '.', ':', '#', '1', '2', '3', '4'");
-
         }
     }
 
     /**
      * updates all images on screen
      */
-    void update(){
+    void update() {
         for (int i = 0; i < sizeX; i++) {
             for (int j = 0; j < sizeY; j++) {
-                ImageIcon icon = switch (board[i+1][j+1]) {
-                    case WALL -> this.wall;
-                    case BULB -> this.bulb;
-                    case EMPTY -> this.empty;
-                    case LIGHTED, LIGHTED2 -> this.lighted;
-                    case WALL0 -> this.wall0;
-                    case WALL1 -> this.wall1;
-                    case WALL2 -> this.wall2;
-                    case WALL3 -> this.wall3;
-                    case WALL4 -> this.wall4;
-
-                    default -> throw new IllegalStateException("Unexpected value: " + board[i][j]);
+                ImageIcon icon = switch (board[i + 1][j + 1]) {
+                    case WALL -> wall;
+                    case BULB -> bulb;
+                    case EMPTY -> empty;
+                    case LIGHTED, LIGHTED2 -> lighted;
+                    case WALL0 -> wall0;
+                    case WALL1 -> wall1;
+                    case WALL2 -> wall2;
+                    case WALL3 -> wall3;
+                    case WALL4 -> wall4;
                 };
                 cells[i][j].setIcon(icon);
             }
         }
+        if (!engine.endGame(board)) {
+            System.out.println("You won");
+
+            stillPlaying = false;
+        }
+
+    }
+
+    void solve(){
+        Solver solver = new Solver();
+        board = solver.solve(board);
     }
 
 }
