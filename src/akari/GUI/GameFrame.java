@@ -13,15 +13,14 @@ public final class GameFrame extends JFrame {
     private final int sizeX;
     private final int sizeY;
     private final JLabel[][] cells;
-    private final JLabel[] menu;
     private Engine.Field[][] board;
     private final Engine engine;
     private boolean stillPlaying = true;
 
     //Pictures
 
-    final static private ImageIcon testTile1 = new ImageIcon("graphics/test_tile1.png");
-    final static private ImageIcon testTile2 = new ImageIcon("graphics/test_tile2.png");
+//    final static private ImageIcon testTile1 = new ImageIcon("graphics/test_tile1.png");
+//    final static private ImageIcon testTile2 = new ImageIcon("graphics/test_tile2.png");
     final static private ImageIcon bulb = new ImageIcon("graphics/bulb.png");
     final static private ImageIcon empty = new ImageIcon("graphics/empty.png");
     final static private ImageIcon lighted = new ImageIcon("graphics/lighted.png");
@@ -55,7 +54,8 @@ public final class GameFrame extends JFrame {
         //Layouts
         BorderLayout mainLayout = new BorderLayout();
         GridLayout gameLayout = new GridLayout(sizeX, sizeY, 1, 1);
-        GridLayout menuLayout = new GridLayout(1, 3, 1, 10);
+        FlowLayout menuLayout = new FlowLayout();
+
 
         //GameFrame setup
         getContentPane();
@@ -95,7 +95,7 @@ public final class GameFrame extends JFrame {
         menuPanel.setBackground(Color.GRAY);
 
         //menu mouse listeners setup
-        menu = new JLabel[3];
+        JLabel[] menu = new JLabel[3];
         menu[0] = new JLabel();
         menuPanel.add(menu[0]);
         menu[0].setIcon(quitButton);
@@ -122,9 +122,10 @@ public final class GameFrame extends JFrame {
         menu[2].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-
-                solve();
-                update();
+                if (stillPlaying) {
+                    solve();
+                    update();
+                }
             }
         });
 
