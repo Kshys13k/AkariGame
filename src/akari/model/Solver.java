@@ -154,7 +154,6 @@ public class Solver extends Engine {
             }
 //            printBoard(board);
            pointer++;
-            System.out.println(".");
         }
             return board;
         }
