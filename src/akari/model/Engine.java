@@ -133,7 +133,7 @@ public class Engine {
         }
     }
 
-    //metoda, która wywołuje planszę
+    //metoda, która wywołuje planszę w konsoli
     public void printBoard(Field[][] board) {
         System.out.print("   ");
         for (int i = 0; i < board.length - 2; i++) {

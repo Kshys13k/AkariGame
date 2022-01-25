@@ -48,7 +48,7 @@ public final class GameFrame extends JFrame {
         this.engine = new Engine();
 
         Generator generator = new Generator();
-        board = generator.generate(size + 2);
+        board = generator.generate(size);
 
 
         //Layouts
@@ -59,7 +59,7 @@ public final class GameFrame extends JFrame {
 
         //GameFrame setup
         getContentPane();
-        setTitle("Akari " + sizeX + "x" + sizeY);
+        setTitle("Akari " + sizeX + " x" + sizeY);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBackground(Color.GRAY);

@@ -50,7 +50,7 @@ public class Generator extends Engine {
 
     //metoda generująca planszę o wymiarach (n - 2) X (n - 2)
     public Field[][] generate(int n) {
-
+        n += 2; // border
         //tablica n X n, pierwsze i ostatnie rzędy i kolumny są ścianami, są one pomijane
         //w metodzie printBoard(); przydatne w innych metodach
         Field[][] board = new Field[n][n];
