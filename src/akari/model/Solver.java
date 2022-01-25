@@ -108,39 +108,55 @@ public class Solver extends Engine {
         int x,y;
         int limit=listOfSuspectedCells.size()-1;
         for(;;){
-            System.out.println("\n"+pointer);
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+
+            //TEST
+//            System.out.println("\n"+pointer);
+//            try {
+//                Thread.sleep(50);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+
             x=listOfSuspectedCells.get(pointer).getX();
             y=listOfSuspectedCells.get(pointer).getY();
             if(pointer<=limit){
                 if(canBeTurnedOn(board, x, y)){
                     placeBulb(board,x,y);
                     if(!endGame(board)) {
+                        //TEST
+//                        System.out.println("gra spełniona");
+
                         break;
                     }
                 }
             }if(pointer==limit){
+                //TEST
+//                System.out.println("pointer==limit");
+
                 if(board[x][y] == Field.BULB) placeBulb(board,x,y);
                 for(;;){
+                    //TEST
+//                    System.out.println("\n"+pointer);
+
                     pointer--;
+                    x=listOfSuspectedCells.get(pointer).getX();
+                    y=listOfSuspectedCells.get(pointer).getY();
                     if(board[x][y] == Field.BULB) {
+                        //TEST
+//                        System.out.println("usuwqam zarowke");
+
+
                         placeBulb(board,x,y);
                         break;
                     }
                     if(pointer==0) return board;
                 }
             }
-            printBoard(board);
+//            printBoard(board);
            pointer++;
+            System.out.println(".");
         }
             return board;
         }
-
-
-
     }
 
