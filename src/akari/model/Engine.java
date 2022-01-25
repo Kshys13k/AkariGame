@@ -28,7 +28,7 @@ public class Engine {
     public int boardSize() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("ENTER BOARD SIZE (1 - 26): ");
-        return scanner.nextInt() + 2;
+        return scanner.nextInt();
     }
 
     //metoda resetująca planszę, usuwa wszystkie żarówki z planszy
