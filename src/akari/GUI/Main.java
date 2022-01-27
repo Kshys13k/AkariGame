@@ -1,88 +1,38 @@
 package akari.GUI;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 
-
+import java.awt.Component;
+import java.awt.Dimension;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 public class Main {
-    public static void main(String[] args)  {
-
-        int X = 10;
-        int Y = 10;
+    public static void main(String[] args) {
         JFrame frame = new JFrame();
-        JPanel panel  = new JPanel();
-        JPanel panel2 = new JPanel();
- //       frame.getContentPane();
-        frame.setResizable(false);
-        ImageIcon tile1 = new ImageIcon("graphics/test_tile1.png");
-        ImageIcon tile2 = new ImageIcon("graphics/test_tile2.png");
-
-
-        Dimension size = new Dimension(40,40);
-
-        frame.setSize(409,500);
-
-   //     panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        panel.setBackground(Color.GRAY);
-        panel2.setBackground(Color.GRAY);
-        frame.setBackground(Color.GRAY);
-
-        BorderLayout main = new BorderLayout();
-        GridLayout test = new GridLayout(10,10,1,1);
-        GridLayout test2 = new GridLayout(1,3,1,10);
-        frame.setLayout(main);
-
-
-        panel2.add(new JLabel("1"));
-        panel2.add(new JLabel("2"));
-        panel2.add(new JLabel("3"));
-
-
-        panel.setLayout(test);
-        panel2.setLayout(test2);
-        panel2.setSize(400,100);
-
-
-        JLabel[][] pictures = new JLabel[10][10];
-        final boolean[][] color = new boolean[X][Y];
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                pictures[i][j] = new JLabel(tile1);
-                pictures[i][j].setBounds(0,0,size.width,size.height);
-                panel.add(pictures[i][j]);
-                pictures[i][j].setLocation(41*i+1,41*j+1);
-                int finalI = i;
-                int finalJ = j;
-                pictures[i][j].addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        System.out.println(finalI+ " " + finalJ);
-                        if(color[finalI][finalJ]){
-                            pictures[finalI][finalJ].setIcon(new ImageIcon("graphics/test_tile1.png"));
-                            color[finalI][finalJ] = false;
-                        }
-                        else{
-                            pictures[finalI][finalJ].setIcon(new ImageIcon("graphics/test_tile2.png"));
-                            color[finalI][finalJ] = true;
-                        }
-
-
-                    }
-                });
-            }
-        }
-
-        frame.add(panel,BorderLayout.NORTH);
-        frame.add(panel2,BorderLayout.SOUTH);
-
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.setSize(409,409);
-        panel.setSize(409,409);
-        frame.pack();
+        frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+        JPanel panel = new JPanel();
+        JButton btn1 = new JButton("One");
+        JButton btn2 = new JButton("Two");
+        JButton btn3 = new JButton("Three");
+        JButton btn4 = new JButton("Four");
+        JButton btn5 = new JButton("Five");
+        panel.add(btn1);
+        panel.add(btn2);
+        panel.add(btn3);
+        panel.add(btn4);
+        panel.add(btn5);
+        panel.setAlignmentY(Component.CENTER_ALIGNMENT);
+        panel.setPreferredSize(new Dimension(400, 100));
+        panel.setMaximumSize(new Dimension(400, 100));
+        //panel.setBorder(BorderFactory.createTitledBorder("demo"));
+        frame.getContentPane().add(panel);
+        frame.setSize(550, 300);
         frame.setVisible(true);
-
-
     }
 }
