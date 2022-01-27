@@ -48,8 +48,8 @@ public class Generator extends Engine {
         return counter;
     }
 
-    //metoda generująca planszę o wymiarach (n - 2) X (n - 2)
-    public Field[][] generate(int n) {
+    //metoda generująca planszę o wymiarach n X n
+    public Field[][] generate(int n, double wallsMin, double wallsMax, double toNumberChance) {
         n += 2; // border
         //tablica n X n, pierwsze i ostatnie rzędy i kolumny są ścianami, są one pomijane
         //w metodzie printBoard(); przydatne w innych metodach
@@ -72,7 +72,8 @@ public class Generator extends Engine {
 
         Random random = new Random();
         int cells = (n - 2) * (n - 2); //liczba wszystkich pól na planszy
-        int walls = random.nextInt((int)(cells * 0.75 - cells * 0.25 + 1)) + (int)(cells * 0.25); //liczba generowanych ścian
+        //liczba generowanych ścian
+        int walls = random.nextInt((int)(cells * wallsMax - cells * wallsMin + 1)) + (int)(cells * wallsMin);
 
         //pętla, która losowo umieszcza ściany na planszy
         for(int i = 0; i < walls; i++) {
@@ -115,35 +116,35 @@ public class Generator extends Engine {
                    if(countWalls(board, j + 1, k + 1) == 4) {
                        continue;
                    }
-                   boolean toNumber = random.nextBoolean();
+                   double toNumber = random.nextDouble();
                    int wallNumber = countBulbs(board, j + 1, k + 1);
                    switch(wallNumber) {
                        case 0: {
-                           if(toNumber) {
+                           if(toNumber < toNumberChance) {
                                board[j + 1][k + 1] = Field.WALL0;
                                break;
                            }
                        }
                        case 1: {
-                           if(toNumber) {
+                           if(toNumber < toNumberChance) {
                                board[j + 1][k + 1] = Field.WALL1;
                                break;
                            }
                        }
                        case 2: {
-                           if(toNumber) {
+                           if(toNumber < toNumberChance) {
                                board[j + 1][k + 1] = Field.WALL2;
                                break;
                            }
                        }
                        case 3: {
-                           if(toNumber) {
+                           if(toNumber < toNumberChance) {
                                board[j + 1][k + 1] = Field.WALL3;
                                break;
                            }
                        }
                        case 4: {
-                           if(toNumber) {
+                           if(toNumber < toNumberChance) {
                                board[j + 1][k + 1] = Field.WALL4;
                                break;
                            }

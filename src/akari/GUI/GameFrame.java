@@ -48,7 +48,7 @@ public final class GameFrame extends JFrame {
         this.engine = new Engine();
 
         Generator generator = new Generator();
-        board = generator.generate(size);
+        board = generator.generate(size, 0.25, 0.75, 0.5);
 
 
         //Layouts
