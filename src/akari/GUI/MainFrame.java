@@ -19,16 +19,13 @@ public final class MainFrame extends JFrame {
 
 
     private GameFrame gameFrame;
-    private int size = 7;
+    private int size;
+    private float wallsMin;
+    private float wallsMax;
+    private float toNumberChance;
 
 
-
-    private float wallsMin = (float) 0.35;
-    private float wallsMax = (float) 0.55;
-    private float toNumberChance = (float) 0.4;
-
-
-    private SettingFrame settingFrame;
+    private SettingsFrame settingFrame;
     private LoadFrame loadFrame;
 
 
@@ -43,11 +40,13 @@ public final class MainFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainPanel.setBackground(Color.GRAY);
 
+        setNormalDifficulty();
+
         //graphics loading
-        akariLogoLAbel.setIcon(new ImageIcon("graphics/AkariLogo.png"));
-        playLabel.setIcon(new ImageIcon("graphics/playButton.png"));
-        loadLabel.setIcon(new ImageIcon("graphics/loadButton.png"));
-        settingsLabel.setIcon(new ImageIcon("graphics/settingsButton.png"));
+        akariLogoLAbel.setIcon(new ImageIcon("graphics/mainFrame/AkariLogo.png"));
+        playLabel.setIcon(new ImageIcon("graphics/mainFrame/playButton.png"));
+        loadLabel.setIcon(new ImageIcon("graphics/mainFrame/loadButton.png"));
+        settingsLabel.setIcon(new ImageIcon("graphics/mainFrame/settingsButton.png"));
 
         //listeners
         playLabel.addMouseListener(new MouseAdapter() {
@@ -98,7 +97,7 @@ public final class MainFrame extends JFrame {
                 if(!isLocked) {
                     isLocked = true;
                     setVisible(false);
-                    settingFrame = new SettingFrame();
+                    settingFrame = new SettingsFrame();
                     settingFrame.pack();
                     settingFrame.setVisible(true);
                     settingFrame.addWindowListener(new WindowAdapter() {
@@ -133,5 +132,102 @@ public final class MainFrame extends JFrame {
     public void setToNumberChance(float toNumberChance) {
         this.toNumberChance = toNumberChance;
     }
+    private void setEasyDifficulty(){
+        MainFrame.this.setSize(7);
+        MainFrame.this.setWallsMin((float) 0.1);
+        MainFrame.this.setWallsMax((float) 0.4);
+        MainFrame.this.setToNumberChance((float) 0.3);
 
+    }
+    private void setNormalDifficulty(){
+        MainFrame.this.setSize(11);
+        MainFrame.this.setWallsMin((float) 0.2);
+        MainFrame.this.setWallsMax((float) 0.5);
+        MainFrame.this.setToNumberChance((float) 0.5);
+    }
+    private void setHardDifficulty(){
+        MainFrame.this.setSize(15);
+        MainFrame.this.setWallsMin((float) 0.3);
+        MainFrame.this.setWallsMax((float) 0.6);
+        MainFrame.this.setToNumberChance((float) 0.6);
+    }
+
+    private class SettingsFrame extends JFrame {
+        private JPanel settingPanel;
+        private JLabel settingsLogoLabel;
+        private JLabel easyLabel;
+        private JLabel normalLabel;
+        private JLabel hardLabel;
+
+
+        public SettingsFrame(){
+            //basic setup
+            setContentPane(settingPanel);
+            setTitle("Settings");
+            setResizable(false);
+            setPreferredSize(new Dimension(400,200) );
+            settingPanel.setBackground(Color.GRAY);
+
+
+            settingsLogoLabel.setIcon(new ImageIcon("graphics/settingsFrame/settingsLogo.png"));
+            easyLabel.setIcon(new ImageIcon("graphics/settingsFrame/easyButton.png"));
+            normalLabel.setIcon(new ImageIcon("graphics/settingsFrame/normalButton.png"));
+            hardLabel.setIcon(new ImageIcon("graphics/settingsFrame/hardButton.png"));
+
+
+            //mouse listeners for difficulty settings
+            easyLabel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    MainFrame.this.setEasyDifficulty();
+                    MainFrame.this.isLocked = false;
+                    MainFrame.this.setVisible(true);
+                    setVisible(false);
+                }
+            });
+            normalLabel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    MainFrame.this.setNormalDifficulty();
+                    MainFrame.this.isLocked = false;
+                    MainFrame.this.setVisible(true);
+                    setVisible(false);
+                }
+            });
+            hardLabel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    MainFrame.this.setHardDifficulty();
+                    MainFrame.this.isLocked = false;
+                    MainFrame.this.setVisible(true);
+                    setVisible(false);
+                }
+            });
+
+        }
+    }
+
+    private class LoadFrame extends JFrame{
+        private JLabel loadLogoLabel;
+        private JList savesList;
+        private JPanel loadPanel;
+
+
+        public LoadFrame(){
+            //basic setup
+            setContentPane(loadPanel);
+            setTitle("Settings");
+            setResizable(false);
+            setPreferredSize(new Dimension(400,200) );
+            loadPanel.setBackground(Color.GRAY);
+            savesList.setBackground(Color.GRAY);
+
+
+            loadLogoLabel.setIcon(new ImageIcon("graphics/loadFrame/loadLogo.png"));
+
+
+
+        }
+
+    }
 }

@@ -21,18 +21,18 @@ public final class GameFrame extends JFrame {
 
 //    final static private ImageIcon testTile1 = new ImageIcon("graphics/test_tile1.png");
 //    final static private ImageIcon testTile2 = new ImageIcon("graphics/test_tile2.png");
-    final static private ImageIcon bulb = new ImageIcon("graphics/bulb.png");
-    final static private ImageIcon empty = new ImageIcon("graphics/empty.png");
-    final static private ImageIcon lighted = new ImageIcon("graphics/lighted.png");
-    final static private ImageIcon wall = new ImageIcon("graphics/wall.png");
-    final static private ImageIcon wall0 = new ImageIcon("graphics/wall0.png");
-    final static private ImageIcon wall1 = new ImageIcon("graphics/wall1.png");
-    final static private ImageIcon wall2 = new ImageIcon("graphics/wall2.png");
-    final static private ImageIcon wall3 = new ImageIcon("graphics/wall3.png");
-    final static private ImageIcon wall4 = new ImageIcon("graphics/wall4.png");
-    final static private ImageIcon resetButton = new ImageIcon("graphics/resetButton.png");
-    final static private ImageIcon saveButton = new ImageIcon("graphics/saveButton.png");
-    final static private ImageIcon solveButton = new ImageIcon("graphics/solveButton.png");
+    final static private ImageIcon bulb = new ImageIcon("graphics/gameFrame/bulb.png");
+    final static private ImageIcon empty = new ImageIcon("graphics/gameFrame/empty.png");
+    final static private ImageIcon lighted = new ImageIcon("graphics/gameFrame/lighted.png");
+    final static private ImageIcon wall = new ImageIcon("graphics/gameFrame/wall.png");
+    final static private ImageIcon wall0 = new ImageIcon("graphics/gameFrame/wall0.png");
+    final static private ImageIcon wall1 = new ImageIcon("graphics/gameFrame/wall1.png");
+    final static private ImageIcon wall2 = new ImageIcon("graphics/gameFrame/wall2.png");
+    final static private ImageIcon wall3 = new ImageIcon("graphics/gameFrame/wall3.png");
+    final static private ImageIcon wall4 = new ImageIcon("graphics/gameFrame/wall4.png");
+    final static private ImageIcon resetButton = new ImageIcon("graphics/gameFrame/resetButton.png");
+    final static private ImageIcon saveButton = new ImageIcon("graphics/gameFrame/saveButton.png");
+    final static private ImageIcon solveButton = new ImageIcon("graphics/gameFrame/solveButton.png");
 
 
     /**
@@ -201,6 +201,10 @@ public final class GameFrame extends JFrame {
         }
 
     }
+
+    /**
+     * Method that solves current game through solver object
+     */
 
     void solve(){
         Solver solver = new Solver();

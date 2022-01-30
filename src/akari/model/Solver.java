@@ -147,7 +147,7 @@ public class Solver extends Engine {
 
     private Field[][] bruteForce(Field[][] board) {
         int stepCounter=0;
-        //wyznaczanie miejsc gdzie mozna postawic żarówkę:
+        //wyznaczanie miejsc, gdzie można postawić żarówkę:
         List<SuspectedCell> listOfSuspectedCells = new ArrayList<SuspectedCell>();
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board.length; j++) {
