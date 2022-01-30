@@ -20,6 +20,8 @@ public class Engine {
         WALL4,
     }
 
+
+
     public static String alphabet = "abcdefghijklmnopqrstuvwxyz"; /* alfabet, przydatny do
     orientacji na planszy
      */

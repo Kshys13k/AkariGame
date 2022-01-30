@@ -30,9 +30,9 @@ public final class GameFrame extends JFrame {
     final static private ImageIcon wall2 = new ImageIcon("graphics/wall2.png");
     final static private ImageIcon wall3 = new ImageIcon("graphics/wall3.png");
     final static private ImageIcon wall4 = new ImageIcon("graphics/wall4.png");
-    final static private ImageIcon quitButton = new ImageIcon("graphics/quit_button.png");
-    final static private ImageIcon saveButton = new ImageIcon("graphics/save_button.png");
-    final static private ImageIcon solveButton = new ImageIcon("graphics/solve_button.png");
+    final static private ImageIcon resetButton = new ImageIcon("graphics/resetButton.png");
+    final static private ImageIcon saveButton = new ImageIcon("graphics/saveButton.png");
+    final static private ImageIcon solveButton = new ImageIcon("graphics/solveButton.png");
 
 
     /**
@@ -40,7 +40,7 @@ public final class GameFrame extends JFrame {
      *
      * @param size size of the board is size x size
      */
-    public GameFrame(int size) {
+    public GameFrame(int size, float wallsMin, float wallsMax, float toNumberChance) {
         //basic setup
         this.sizeX = size;
         this.sizeY = size;
@@ -48,7 +48,7 @@ public final class GameFrame extends JFrame {
         this.engine = new Engine();
 
         Generator generator = new Generator();
-        board = generator.generate(size, 0.25, 0.75, 0.5);
+        board = generator.generate(size, wallsMin, wallsMax, toNumberChance);
 
 
         //Layouts
@@ -61,7 +61,6 @@ public final class GameFrame extends JFrame {
         getContentPane();
         setTitle("Akari " + sizeX + " x" + sizeY);
         setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBackground(Color.GRAY);
         setLayout(mainLayout);
 
@@ -69,11 +68,14 @@ public final class GameFrame extends JFrame {
         JPanel gamePanel = new JPanel();
         gamePanel.setLayout(gameLayout);
         gamePanel.setBackground(Color.GRAY);
+        gamePanel.setPreferredSize(new Dimension(41*size-1,41*size-1));
 
         //game mouse listeners setup
         for (int i = 0; i < sizeX; i++) {
             for (int j = 0; j < sizeY; j++) {
                 cells[i][j] = new JLabel();
+                cells[i][j].setVerticalAlignment(SwingConstants.CENTER);
+                cells[i][j].setHorizontalAlignment(SwingConstants.CENTER);
                 gamePanel.add(cells[i][j]);
                 int finalI = i;
                 int finalJ = j;
@@ -98,11 +100,19 @@ public final class GameFrame extends JFrame {
         JLabel[] menu = new JLabel[3];
         menu[0] = new JLabel();
         menuPanel.add(menu[0]);
-        menu[0].setIcon(quitButton);
+        menu[0].setIcon(resetButton);
         menu[0].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                super.mousePressed(e);
+                stillPlaying = true;
+                for (int i = 1; i < sizeX+1; i++) {
+                    for (int j = 1; j < sizeY+1; j++) {
+                        if(board[i][j] == Engine.Field.BULB || board[i][j]== Engine.Field.LIGHTED || board[i][j] == Engine.Field.LIGHTED2) {
+                            board[i][j] = Engine.Field.EMPTY;
+                        }
+                    }
+                }
+                update();
             }
         });
 
