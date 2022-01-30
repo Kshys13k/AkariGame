@@ -146,6 +146,7 @@ public class Solver extends Engine {
     }
 
     private Field[][] bruteForce(Field[][] board) {
+        int stepCounter=0;
         //wyznaczanie miejsc gdzie mozna postawic żarówkę:
         List<SuspectedCell> listOfSuspectedCells = new ArrayList<SuspectedCell>();
         for (int i = 0; i < board.length; i++) {
@@ -186,7 +187,11 @@ public class Solver extends Engine {
             if (pointer == limit) {
                 //TEST
 //                System.out.println("pointer==limit");
-
+                stepCounter++;
+                if(stepCounter>10000000){
+                    System.out.println("Rozwiązanie tej planszy jest zaiste bardzo proste, ale ten margines go nie pomieści");
+                    throw new RuntimeException("Rozwiązanie tej planszy jest zaiste bardzo proste, ale ten margines go nie pomieści");
+                }
                 if (board[x][y] == Field.BULB) placeBulb(board, x, y);
                 for (; ; ) {
                     //TEST
@@ -209,6 +214,7 @@ public class Solver extends Engine {
 //            printBoard(board);
             pointer++;
         }
+        System.out.println(stepCounter);
         return board;
     }
 
