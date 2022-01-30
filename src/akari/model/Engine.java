@@ -19,8 +19,15 @@ public class Engine {
         WALL3,
         WALL4,
     }
-     public Engine.Field[][] board;
+    private Engine.Field[][] board;
 
+    public Field[][] getBoard() {
+        return board;
+    }
+
+    public void setBoard(Field[][] board) {
+        this.board = board;
+    }
 
     public static String alphabet = "abcdefghijklmnopqrstuvwxyz"; /* alfabet, przydatny do
     orientacji na planszy

@@ -107,8 +107,11 @@ public final class GameFrame extends JFrame {
                 stillPlaying = true;
                 for (int i = 1; i < sizeX+1; i++) {
                     for (int j = 1; j < sizeY+1; j++) {
-                        if(engine.board[i][j] == Engine.Field.BULB || engine.board[i][j]== Engine.Field.LIGHTED || engine.board[i][j] == Engine.Field.LIGHTED2) {
-                            engine.board[i][j] = Engine.Field.EMPTY;
+                        if(engine.getBoard()[i][j] == Engine.Field.BULB ||
+                           engine.getBoard()[i][j]== Engine.Field.LIGHTED ||
+                           engine.getBoard()[i][j] == Engine.Field.LIGHTED2)
+                        {
+                            engine.getBoard()[i][j] = Engine.Field.EMPTY;
                         }
                     }
                 }
@@ -161,12 +164,12 @@ public final class GameFrame extends JFrame {
         if (cell.getIcon() == empty) {
             cell.setIcon(bulb);
 
-            engine.placeBulb(engine.board, x + 1, y + 1);
+            engine.placeBulb(engine.getBoard(), x + 1, y + 1);
             update();
 
         } else if (cell.getIcon() == bulb) {
             cell.setIcon(empty);
-            engine.placeBulb(engine.board, x + 1, y + 1);
+            engine.placeBulb(engine.getBoard(), x + 1, y + 1);
             update();
         }
     }
@@ -177,7 +180,7 @@ public final class GameFrame extends JFrame {
     void update() {
         for (int i = 0; i < sizeX; i++) {
             for (int j = 0; j < sizeY; j++) {
-                ImageIcon icon = switch (engine.board[i + 1][j + 1]) {
+                ImageIcon icon = switch (engine.getBoard()[i + 1][j + 1]) {
                     case WALL -> wall;
                     case BULB -> bulb;
                     case EMPTY -> empty;
@@ -191,7 +194,7 @@ public final class GameFrame extends JFrame {
                 cells[i][j].setIcon(icon);
             }
         }
-        if (!engine.endGame(engine.board)) {
+        if (!engine.endGame(engine.getBoard())) {
             System.out.println("You won");
 
             stillPlaying = false;
@@ -201,7 +204,7 @@ public final class GameFrame extends JFrame {
 
     void solve(){
         Solver solver = new Solver();
-        engine.board = solver.solve(engine.board);
+        engine.setBoard(solver.solve(engine.getBoard()));
     }
 
 }
