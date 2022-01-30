@@ -19,7 +19,7 @@ public class Engine {
         WALL3,
         WALL4,
     }
-
+     public Engine.Field[][] board;
 
 
     public static String alphabet = "abcdefghijklmnopqrstuvwxyz"; /* alfabet, przydatny do
@@ -247,5 +247,9 @@ public class Engine {
                 down = unLight(board, row + i + 1, column);
             }
         }
+    }
+    public void generateBoard(int size, float wallsMin, float wallsMax, float toNumberChance){
+        Generator generator = new Generator();
+        this.board = generator.generate(size, wallsMin, wallsMax, toNumberChance);
     }
 }

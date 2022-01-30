@@ -13,7 +13,7 @@ public final class GameFrame extends JFrame {
     private final int sizeX;
     private final int sizeY;
     private final JLabel[][] cells;
-    private Engine.Field[][] board;
+
     private final Engine engine;
     private boolean stillPlaying = true;
 
@@ -48,7 +48,7 @@ public final class GameFrame extends JFrame {
         this.engine = new Engine();
 
         Generator generator = new Generator();
-        board = generator.generate(size, wallsMin, wallsMax, toNumberChance);
+        engine.generateBoard(size, wallsMin, wallsMax, toNumberChance);
 
 
         //Layouts
@@ -107,8 +107,8 @@ public final class GameFrame extends JFrame {
                 stillPlaying = true;
                 for (int i = 1; i < sizeX+1; i++) {
                     for (int j = 1; j < sizeY+1; j++) {
-                        if(board[i][j] == Engine.Field.BULB || board[i][j]== Engine.Field.LIGHTED || board[i][j] == Engine.Field.LIGHTED2) {
-                            board[i][j] = Engine.Field.EMPTY;
+                        if(engine.board[i][j] == Engine.Field.BULB || engine.board[i][j]== Engine.Field.LIGHTED || engine.board[i][j] == Engine.Field.LIGHTED2) {
+                            engine.board[i][j] = Engine.Field.EMPTY;
                         }
                     }
                 }
@@ -161,12 +161,12 @@ public final class GameFrame extends JFrame {
         if (cell.getIcon() == empty) {
             cell.setIcon(bulb);
 
-            engine.placeBulb(board, x + 1, y + 1);
+            engine.placeBulb(engine.board, x + 1, y + 1);
             update();
 
         } else if (cell.getIcon() == bulb) {
             cell.setIcon(empty);
-            engine.placeBulb(board, x + 1, y + 1);
+            engine.placeBulb(engine.board, x + 1, y + 1);
             update();
         }
     }
@@ -177,7 +177,7 @@ public final class GameFrame extends JFrame {
     void update() {
         for (int i = 0; i < sizeX; i++) {
             for (int j = 0; j < sizeY; j++) {
-                ImageIcon icon = switch (board[i + 1][j + 1]) {
+                ImageIcon icon = switch (engine.board[i + 1][j + 1]) {
                     case WALL -> wall;
                     case BULB -> bulb;
                     case EMPTY -> empty;
@@ -191,7 +191,7 @@ public final class GameFrame extends JFrame {
                 cells[i][j].setIcon(icon);
             }
         }
-        if (!engine.endGame(board)) {
+        if (!engine.endGame(engine.board)) {
             System.out.println("You won");
 
             stillPlaying = false;
@@ -201,7 +201,7 @@ public final class GameFrame extends JFrame {
 
     void solve(){
         Solver solver = new Solver();
-        board = solver.solve(board);
+        engine.board = solver.solve(engine.board);
     }
 
 }
