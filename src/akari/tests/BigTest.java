@@ -2,6 +2,7 @@ package akari.tests;
 
 import akari.model.*;
 
+//solvuje wygenerowaną, zapisaną i odczytaną planszę
 public class BigTest extends Engine {
     public static void main(String[] args) {
         Engine engine = new Engine();
@@ -13,8 +14,8 @@ public class BigTest extends Engine {
         System.out.println("Wygenerowana plansza:");
         engine.printBoard(board);
         saveBoard.setBoard(board);
-        saveBoard.save(2);
-        board=loadBoard.load(2);
+        saveBoard.save(4);
+        board=loadBoard.load(4);
         System.out.println("Plansza wczytana z pliku:");
         engine.printBoard(board);
         Field[][] solvedBoard = solver.solve(board);

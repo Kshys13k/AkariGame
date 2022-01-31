@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-//klasa wczytująca plansze z plików (metoda load- podajemy którego save'a chcemy otworzyć (1do3))
+//klasa wczytująca plansze z plików (metoda load- podajemy nr save'a który chcemy otworzyć)
 public class LoadBoard {
 
     public LoadBoard(){

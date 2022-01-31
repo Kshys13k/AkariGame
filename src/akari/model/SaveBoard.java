@@ -10,7 +10,7 @@ import java.util.Locale;
 
 
 //Klasa zapisuje plansze do pliku CSV. Przy tworzeniu obiektu trzeba podać planszę.
-//Przy wywołaniu metody save trzeba podać liczbę od 1 do 3 (zapisuje do jednego z 3 możliwych savów).
+//Przy wywołaniu metody save trzeba podać nr sava do którego zapisujemy.
 public class SaveBoard {
     Engine.Field[][] board;
 
