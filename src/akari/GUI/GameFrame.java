@@ -310,8 +310,12 @@ public final class GameFrame extends JFrame {
         }
         if (!engine.endGame(engine.getBoard())) {
             System.out.println("You won");
+            setTitle("YOU WON, Congratulations");
+
 
             stillPlaying = false;
+        }else{
+            setTitle("Akari "+sizeX +" x "+sizeY);
         }
 
     }
