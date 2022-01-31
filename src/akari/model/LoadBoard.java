@@ -1,15 +1,8 @@
 package akari.model;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * loading board from .csv file
@@ -22,7 +15,7 @@ public class LoadBoard {
     /**
      * converting string to board
      * @param boardCSV board as a string
-     * @return
+     * @return returns board converted from a special String
      */
     private Engine.Field[][] CSVtoBoard(String boardCSV) {
         String[]rows=boardCSV.split("N");
@@ -38,19 +31,16 @@ public class LoadBoard {
 
         //wypełniamy planszę
         int i=0;
-        int j=0;
         for(String row:rows){
             String[] cells=row.split(",");
-            j=0;
+            int j=0;
             for(String cell:cells){
                 switch(cell){
                     case "[#]"-> board[i+1][j+1]=Engine.Field.WALL;
                     case "[1]"-> board[i+1][j+1]=Engine.Field.WALL1;
                     case "[2]"-> board[i+1][j+1]=Engine.Field.WALL2;
                     case "[3]"-> board[i+1][j+1]=Engine.Field.WALL3;
-
                     case "[4]"-> board[i+1][j+1]=Engine.Field.WALL4;
-
                     case "[0]"-> board[i+1][j+1]=Engine.Field.WALL0;
 
                     case "[ ]"-> board[i+1][j+1]=Engine.Field.EMPTY;
@@ -72,26 +62,23 @@ public class LoadBoard {
     /**
      * loading board from .csv file
      * @param saveNumber number of save
-     * @return
+     * @return returns loaded board from csv file
      */
     public Engine.Field[][] load(Integer saveNumber){
-        String resultString = "";
+        StringBuilder resultString = new StringBuilder();
         try {
             BufferedReader br = new BufferedReader(new FileReader("./saves/save"+saveNumber.toString()+".csv"));
             String line ;
             while ((line = br.readLine()) != null){
-                resultString+= line;
-                resultString += "N";
+                resultString.append(line);
+                resultString.append("N");
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        resultString = resultString.substring(0,resultString.length()-1) ;
+        resultString = new StringBuilder(resultString.substring(0, resultString.length() - 1));
 
-        Engine.Field[][] board= CSVtoBoard(resultString);
-        return board;
+        return CSVtoBoard(resultString.toString());
     }
 
 }

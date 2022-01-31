@@ -4,8 +4,10 @@ import akari.model.Engine;
 import akari.model.Generator;
 import akari.model.SaveBoard;
 
+import java.io.IOException;
+
 public class SavingTest extends Engine {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Engine engine = new Engine();
         Generator generator = new Generator();
         Field[][] board = generator.generate(engine.boardSize(), 0.25, 0.75, 0.5);

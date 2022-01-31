@@ -20,7 +20,6 @@ public class Solver extends Engine {
      * @param board board
      * @param row row of the board
      * @param column column of the board
-     * @return
      */
     //metoda sprawdzająca czy pole jest ścianą, żarówką lub jest podświetlone, lub czy jest obok ściany [0]
     private boolean possibleBulb(Field[][] board, int row, int column) {
@@ -36,7 +35,6 @@ public class Solver extends Engine {
      * @param board board
      * @param x row of the board
      * @param y column of the board
-     * @return
      */
     //sprawdza czy można zaświecić podejrzane pole
     private boolean canBeTurnedOn(Field[][] board, int x, int y) {
@@ -96,7 +94,7 @@ public class Solver extends Engine {
             if (countBulbs(board, x, y + 1) >= 3) return false;
         }
         if (board[x][y + 1] == Field.WALL4) {
-            if (countBulbs(board, x, y + 1) >= 4) return false;
+            return countBulbs(board, x, y + 1) < 4;
         }
         return true;
     }
@@ -106,7 +104,6 @@ public class Solver extends Engine {
      * @param board board
      * @param i row of the board
      * @param j column of the board
-     * @return
      */
     private boolean placeBulbOnAdjacentFieldsIfPossible(Field[][] board, int i, int j) {
         boolean newBulb=false;
@@ -132,48 +129,48 @@ public class Solver extends Engine {
 
     /**
      * Step 1 of solving algorithm
-     * @param board
      */
     private void step1(Field[][] board) {
         boolean newBulb;
         int counter; //zmienna licząca ile żarówek maksymalnie może stykać się z danym polem
-        for (;;) {
+        do {
             newBulb = false;
             for (int i = 1; i < board.length - 1; i++) {
                 for (int j = 1; j < board.length - 1; j++) {
                     counter = 0;
-                    if ((possibleBulb(board, i + 1, j)&&canBeTurnedOn(board, i + 1, j))||board[i+1][j]==Field.BULB) counter++;
-                    if ((possibleBulb(board, i - 1, j)&&canBeTurnedOn(board, i - 1, j))||board[i-1][j]==Field.BULB) counter++;
-                    if ((possibleBulb(board, i, j + 1)&&canBeTurnedOn(board, i, j + 1))||board[i][j+1]==Field.BULB) counter++;
-                    if ((possibleBulb(board, i, j - 1)&&canBeTurnedOn(board, i, j - 1))||board[i][j-1]==Field.BULB) counter++;
+                    if ((possibleBulb(board, i + 1, j) && canBeTurnedOn(board, i + 1, j)) || board[i + 1][j] == Field.BULB)
+                        counter++;
+                    if ((possibleBulb(board, i - 1, j) && canBeTurnedOn(board, i - 1, j)) || board[i - 1][j] == Field.BULB)
+                        counter++;
+                    if ((possibleBulb(board, i, j + 1) && canBeTurnedOn(board, i, j + 1)) || board[i][j + 1] == Field.BULB)
+                        counter++;
+                    if ((possibleBulb(board, i, j - 1) && canBeTurnedOn(board, i, j - 1)) || board[i][j - 1] == Field.BULB)
+                        counter++;
 
                     if (board[i][j] == Field.WALL4 && counter == 4) {
-                        newBulb=placeBulbOnAdjacentFieldsIfPossible(board, i, j);
+                        newBulb = placeBulbOnAdjacentFieldsIfPossible(board, i, j);
                     }
                     if (board[i][j] == Field.WALL3 && counter == 3) {
-                        newBulb=placeBulbOnAdjacentFieldsIfPossible(board, i, j);
+                        newBulb = placeBulbOnAdjacentFieldsIfPossible(board, i, j);
                     }
                     if (board[i][j] == Field.WALL2 && counter == 2) {
-                        newBulb=placeBulbOnAdjacentFieldsIfPossible(board, i, j);
+                        newBulb = placeBulbOnAdjacentFieldsIfPossible(board, i, j);
                     }
                     if (board[i][j] == Field.WALL1 && counter == 1) {
-                        newBulb=placeBulbOnAdjacentFieldsIfPossible(board, i, j);
+                        newBulb = placeBulbOnAdjacentFieldsIfPossible(board, i, j);
                     }
                 }
             }
-            if (newBulb == false) break;
-        }
+        } while (newBulb);
     }
 
     /**
      * Step 2 of solving algorithm- bruteforce
-     * @param board
-     * @return
      */
-    private Field[][] bruteForce(Field[][] board) {
+    private void bruteForce(Field[][] board) {
         int stepCounter=0;
         //wyznaczanie miejsc, gdzie można postawić żarówkę:
-        List<SuspectedCell> listOfSuspectedCells = new ArrayList<SuspectedCell>();
+        List<SuspectedCell> listOfSuspectedCells = new ArrayList<>();
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board.length; j++) {
                 if (possibleBulb(board, i, j) && canBeTurnedOn(board,i,j)) {
@@ -212,31 +209,27 @@ public class Solver extends Engine {
                         placeBulb(board, x, y);
                         break;
                     }
-                    if (pointer == 0) return board;
+                    if (pointer == 0) return;
                 }
             }
             pointer++;
         }
         System.out.println("Liczba kroków algorytmu siłowego:");
         System.out.println(stepCounter);
-        return board;
     }
 
     /**
      * solving the board
-     * @param unsolvedBoard
-     * @return
      */
     public Field[][] solve(Field[][] unsolvedBoard) {
-        Field[][] board = unsolvedBoard;
-        reset(board);
+        reset(unsolvedBoard);
 
         //krok 1- wstawienie żarówek tam gdzie muszą być
-        step1(board);
-        printBoard(board);
+        step1(unsolvedBoard);
+        printBoard(unsolvedBoard);
         //krok 2- brute forcowanie reszty
-       bruteForce(board);
-        return board;
+       bruteForce(unsolvedBoard);
+        return unsolvedBoard;
     }
 }
 

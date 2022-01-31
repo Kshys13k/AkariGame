@@ -5,7 +5,7 @@ import akari.GUI.GameFrame;
 import akari.GUI.WrongCellTypeException;
 
 public class GameFrameTest {
-    public static void main(String[] args) throws WrongCellTypeException {
+    public static void main(String[] args) {
 
         GameFrame frame = new GameFrame(9, (float) 0.35,(float) 0.5, (float) 0.6);
         frame.pack();

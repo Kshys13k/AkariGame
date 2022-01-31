@@ -1,6 +1,5 @@
 package akari.tests;
 
-import akari.GUI.MainFrame;
 import akari.model.*;
 
 import java.io.IOException;

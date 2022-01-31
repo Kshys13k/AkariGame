@@ -15,18 +15,13 @@ import static javax.swing.SwingConstants.CENTER;
 public final class GameFrame extends JFrame {
 
 
-    private  int sizeX;
-    private  int sizeY;
+    private final int sizeX;
+    private final int sizeY;
 
-    private JLabel[][] cells;
+    private final JLabel[][] cells;
     private JPanel gamePanel;
     private JPanel menuPanel;
     private JPanel savePanel;
-
-    private BorderLayout mainLayout  ;
-    private GridLayout gameLayout  ;
-    private FlowLayout menuLayout ;
-    private GridLayout saveLayout;
 
     private final Engine engine;
     private boolean stillPlaying = true;
@@ -47,11 +42,12 @@ public final class GameFrame extends JFrame {
     final static private ImageIcon solveButton = new ImageIcon("graphics/gameFrame/solveButton.png");
 
 
-
     /**
-     * Game initialization
-     *
-     * @param size size of the board is size x size
+     * Game initialization, generate new board with specified settings
+     * @param size assigns preferred size of the board
+     * @param wallsMin assigns minimum percentage of walls on the board
+     * @param wallsMax assigns maximum percentage of walls on the board
+     * @param toNumberChance assigns chance of wall having a number on itself, for each wall
      */
     public GameFrame(int size, float wallsMin, float wallsMax, float toNumberChance ) {
         //basic setup
@@ -74,7 +70,10 @@ public final class GameFrame extends JFrame {
 
     }
 
-
+    /**
+     * Game initialization, allow making game from pre rendered board
+     * @param board pre rendered board
+     */
     public GameFrame(Engine.Field[][] board) {
         int size = board.length-2;
         this.sizeX = size;
@@ -96,18 +95,24 @@ public final class GameFrame extends JFrame {
         add(savePanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * sets up hole frame to be working
+     */
     private void gameFrameSetUp() {
         getContentPane();
         setTitle("Akari " + sizeX + " x" + sizeY);
         setResizable(false);
         setBackground(Color.GRAY);
-        mainLayout = new BorderLayout();
+        BorderLayout mainLayout = new BorderLayout();
         setLayout(mainLayout);
     }
 
+    /**
+     * sets up menu on the bottom of the window
+     */
     private void menuPanelSetUp() {
         //menuPanel setup
-        menuLayout = new FlowLayout();
+        FlowLayout menuLayout = new FlowLayout();
         menuPanel = new JPanel();
         menuPanel.setLayout(menuLayout);
         menuPanel.setBackground(Color.GRAY);
@@ -167,9 +172,12 @@ public final class GameFrame extends JFrame {
         });
     }
 
+    /**
+     * sets up game graphics and mechanics
+     */
     private void gamePanelSetUp() {
 
-        gameLayout = new GridLayout(sizeX, sizeY, 1, 1);
+        GridLayout gameLayout = new GridLayout(sizeX, sizeY, 1, 1);
         //gamePanel setup
         gamePanel = new JPanel();
         gamePanel.setLayout(gameLayout);
@@ -196,10 +204,14 @@ public final class GameFrame extends JFrame {
             }
         }
     }
+
+    /**
+     * Sets up save panel, saving GUI
+     */
     private void savePanelSetUp() {
         savePanel = new JPanel();
 
-        saveLayout = new GridLayout(1,4);
+        GridLayout saveLayout = new GridLayout(1, 4);
         savePanel.setLayout(saveLayout);
         savePanel.setBackground(Color.GRAY);
         JLabel save1Label = new JLabel(new ImageIcon("graphics/loadFrame/save1.png"), CENTER);
@@ -307,22 +319,16 @@ public final class GameFrame extends JFrame {
     /**
      * Method that solves current game through solver object
      */
-
     private void solve(){
         Solver solver = new Solver();
         engine.setBoard(solver.solve(engine.getBoard()));
     }
 
-    private  Engine.Field[][] skinBoard(){
-        Engine.Field[][] result = new Engine.Field[sizeX][sizeY];
-        for (int i = 0; i < sizeX; i++) {
-            for (int j = 0; j < sizeY; j++) {
-                result[i][j] = engine.getBoard()[i+1][j+1];
-            }
-        }
-        return result;
-    }
-
+    /**
+     * Method that saves current board to chosen csv save file
+     * @param saveNumber csv save file order number
+     * @throws IOException thrown by SaveBoard
+     */
     private void saveBoard(int saveNumber) throws IOException {
         SaveBoard saveBoard = new SaveBoard();
         saveBoard.setBoard(engine.getBoard());
