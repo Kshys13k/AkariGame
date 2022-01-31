@@ -1,5 +1,8 @@
 package akari.model;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -78,15 +81,24 @@ public class LoadBoard {
      * @return
      */
     public Engine.Field[][] load(Integer saveNumber){
-        List <String> load= new ArrayList<>();
-        Path path = Paths.get("./saves/save"+saveNumber.toString()+".csv");
+        String resultString = "";
+       // Path path = Paths.get("./saves/save"+saveNumber.toString()+".csv");
         try {
-            load=Files.readAllLines(path);
-        } catch (IOException ex) {
-            System.out.println("Nie mogę odczytać pliku.");
+            BufferedReader br = new BufferedReader(new FileReader("./saves/save"+saveNumber.toString()+".csv"));
+            String line;
+            while ((line = br.readLine()) != null){
+                resultString+= line;
+                resultString += "N";
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        String boardCSV= load.get(0);
-        Engine.Field[][] board= CSVtoBoard(boardCSV);
+        resultString = resultString.substring(0,resultString.length()-1) ;
+        List <String> load= new ArrayList<>();
+
+        Engine.Field[][] board= CSVtoBoard(resultString);
         return board;
     }
 
