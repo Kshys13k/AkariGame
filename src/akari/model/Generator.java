@@ -63,15 +63,18 @@ public class Generator extends Engine {
 
     public Field[][] generate(int n, double wallsMin, double wallsMax, double toNumberChance) {
         n += 2; // border
-        //tablica n X n, pierwsze i ostatnie rzędy i kolumny są ścianami, są one pomijane
-        //w metodzie printBoard(); przydatne w innych metodach
+
+        /* n x n board, first and last rows and columns are filled with walls,
+        they are omitted when printing the board */
+
         Field[][] board = new Field[n][n];
         board[0][0] = Field.WALL;
         board[0][board.length - 1] = Field.WALL;
         board[board.length - 1][0] = Field.WALL;
         board[board.length - 1][board.length - 1] = Field.WALL;
 
-        //pętla wypełnia pierwsze i ostatnie rzędy i kolumny ścianami (wall), a resztę tablicy empty
+        //the loop fills first and last rows and columns with walls and the rest board with empty fields
+
         for(int i = 0; i < board.length - 2; i++) {
             board[0][i + 1] = Field.WALL;
             board[i + 1][0] = Field.WALL;
@@ -83,13 +86,14 @@ public class Generator extends Engine {
         }
 
         Random random = new Random();
-        int cells = (n - 2) * (n - 2); //liczba wszystkich pól na planszy
-        //liczba generowanych ścian
+        int cells = (n - 2) * (n - 2); // the number of all fields on the board
+
+        // the number of generated walls
         int walls = random.nextInt((int)(cells * wallsMax - cells * wallsMin + 1)) + (int)(cells * wallsMin);
 
-        //pętla, która losowo umieszcza ściany na planszy
+        // the loop that randomly fills the board with walls
         for(int i = 0; i < walls; i++) {
-            int position = random.nextInt(countEmpty(board)); //pozycja ściany na planszy
+            int position = random.nextInt(countEmpty(board)); // randomly generated position of a wall on the board
             int counter = 0;
             outer: for(int j = 0; j < board.length - 2; j++) {
                 for(int k = 0; k < board.length - 2; k++) {
@@ -104,9 +108,9 @@ public class Generator extends Engine {
             }
         }
 
-        //pętla, która losowo umieszcza żarówki na planszy
+        // the loop that randomly fills the board with bulbs
         while(countEmpty(board) > 0) {
-            int position = random.nextInt(countEmpty(board)); //pozycja żarówki na planszy
+            int position = random.nextInt(countEmpty(board)); // randomly generated position of a bulb on the board
             int counter = 0;
             outer: for(int i = 0; i < board.length - 2; i++) {
                 for(int j = 0; j < board.length - 2; j++) {
@@ -121,7 +125,7 @@ public class Generator extends Engine {
             }
         }
 
-        //pętla, która losuje, czy dana ściana będzie miała numer czy nie
+        // the loop that randomly converts the wall into the wall with a number
         for(int j = 0; j < board.length - 2; j++) {
             for(int k = 0; k < board.length - 2; k++) {
                if(board[j + 1][k + 1] == Field.WALL) {
