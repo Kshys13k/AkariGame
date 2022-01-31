@@ -133,7 +133,7 @@ public final class MainFrame extends JFrame {
         this.toNumberChance = toNumberChance;
     }
     private void setEasyDifficulty(){
-        MainFrame.this.setSize(7);
+        MainFrame.this.setSize(9);
         MainFrame.this.setWallsMin((float) 0.1);
         MainFrame.this.setWallsMax((float) 0.4);
         MainFrame.this.setToNumberChance((float) 0.3);
