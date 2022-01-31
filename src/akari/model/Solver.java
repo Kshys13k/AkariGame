@@ -111,7 +111,7 @@ public class Solver extends Engine {
     private void step1(Field[][] board) {
         boolean newBulb;
         int counter; //zmienna licząca ile żarówek maksymalnie może stykać się z danym polem
-        for (/*int a = 0; a < 10; a++*/;;) {
+        for (;;) {
             newBulb = false;
             for (int i = 1; i < board.length - 1; i++) {
                 for (int j = 1; j < board.length - 1; j++) {
@@ -133,12 +133,6 @@ public class Solver extends Engine {
                     if (board[i][j] == Field.WALL1 && counter == 1) {
                         newBulb=placeBulbOnAdjacentFieldsIfPossible(board, i, j);
                     }
-//                printBoard(board);
-//                try {
-//                    Thread.sleep(50);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
                 }
             }
             if (newBulb == false) break;
@@ -162,31 +156,17 @@ public class Solver extends Engine {
         int x, y;
         int limit = listOfSuspectedCells.size() - 1;
         for (; ; ) {
-
-            //TEST
-//            System.out.println("\n"+pointer);
-//            try {
-//                Thread.sleep(50);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-
             x = listOfSuspectedCells.get(pointer).getX();
             y = listOfSuspectedCells.get(pointer).getY();
             if (pointer <= limit) {
                 if (canBeTurnedOn(board, x, y)) {
                     placeBulb(board, x, y);
                     if (!endGame(board)) {
-                        //TEST
-//                        System.out.println("gra spełniona");
-
                         break;
                     }
                 }
             }
             if (pointer == limit) {
-                //TEST
-//                System.out.println("pointer==limit");
                 stepCounter++;
                 if(stepCounter>100000000){
                     System.out.println("Rozwiązanie tej planszy jest zaiste bardzo proste, ale ten margines go nie pomieści");
@@ -194,26 +174,19 @@ public class Solver extends Engine {
                 }
                 if (board[x][y] == Field.BULB) placeBulb(board, x, y);
                 for (; ; ) {
-                    //TEST
-//                    System.out.println("\n"+pointer);
-
                     pointer--;
                     x = listOfSuspectedCells.get(pointer).getX();
                     y = listOfSuspectedCells.get(pointer).getY();
                     if (board[x][y] == Field.BULB) {
-                        //TEST
-//                        System.out.println("usuwqam zarowke");
-
-
                         placeBulb(board, x, y);
                         break;
                     }
                     if (pointer == 0) return board;
                 }
             }
-//            printBoard(board);
             pointer++;
         }
+        System.out.println("Liczba kroków algorytmu siłowego:");
         System.out.println(stepCounter);
         return board;
     }
@@ -223,7 +196,7 @@ public class Solver extends Engine {
         Field[][] board = unsolvedBoard;
         reset(board);
 
-        //krok 1- wstawienie żarówek tam gdzie muszą być (JESZCZE NIE DZIAŁA!)
+        //krok 1- wstawienie żarówek tam gdzie muszą być
         step1(board);
         printBoard(board);
         //krok 2- brute forcowanie reszty
