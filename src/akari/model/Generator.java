@@ -4,14 +4,21 @@ import java.util.Random;
 
 public class Generator extends Engine {
 
-    //metoda sprawdza czy dane pole jest ścianą i zwraca true jeżeli jest, a false jeżeli nie jest
+    /**
+     * isWall(Field[][] board, int row, int column) checks whether the field is a wall and returns true if it is,
+     * else returns false
+     */
+
     public boolean isWall(Field[][] board, int row, int column) {
         Field field = board[row][column];
         return field == Field.WALL || field == Field.WALL0 || field == Field.WALL1 || field == Field.WALL2
                 || field == Field.WALL3 || field == Field.WALL4;
     }
 
-    //metoda zlicza wszystkie ściany stykające się z danym polem
+    /**
+     * countWalls(Field[][] board, int row, int column) counts all the walls adjacent to the field
+     */
+
     public int countWalls(Field[][] board, int row, int column) {
         int counter = 0;
         if(isWall(board, row, column - 1)) {
@@ -29,7 +36,10 @@ public class Generator extends Engine {
         return counter;
     }
 
-    //metoda zlicza ile jest pustych pól na planszy
+    /**
+     * countEmpty(Field[][] board) counts how many empty fields are on the board
+     */
+
     public int countEmpty(Field[][] board) {
         int counter = 0;
         for(int i = 0; i < board.length - 2; i++) {
@@ -42,7 +52,15 @@ public class Generator extends Engine {
         return counter;
     }
 
-    //metoda generująca planszę o wymiarach n X n
+    /**
+     * generate(int n, double wallsMin, double wallsMax, double toNumberChance) generates a random akari's board
+     * @param n size of the board is n x n
+     * @param wallsMin minimum number of walls is wallsMin * number of cells
+     * @param wallsMax maximum number of walls is wallsMax * number of cells
+     * @param toNumberChance chance of converting the wall into the wall with a number
+     * @return generated board
+     */
+
     public Field[][] generate(int n, double wallsMin, double wallsMax, double toNumberChance) {
         n += 2; // border
         //tablica n X n, pierwsze i ostatnie rzędy i kolumny są ścianami, są one pomijane
