@@ -1,9 +1,3 @@
-/*
-Klasa Generator zawiera metody niezbędne do wygenerowania planszy (tablicy) na której toczy się rozgrywka
-Generator generuje tylko możliwe do rozwiązania plansze
-Generator może wygenerować każdą możliwą do rozwiązania planszę
- */
-
 package akari.model;
 
 import java.util.Random;
