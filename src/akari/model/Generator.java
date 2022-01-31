@@ -73,7 +73,7 @@ public class Generator extends Engine {
         board[board.length - 1][0] = Field.WALL;
         board[board.length - 1][board.length - 1] = Field.WALL;
 
-        //the loop fills first and last rows and columns with walls and the rest board with empty fields
+        // the loop fills first and last rows and columns with walls and the rest board with empty fields
 
         for(int i = 0; i < board.length - 2; i++) {
             board[0][i + 1] = Field.WALL;
