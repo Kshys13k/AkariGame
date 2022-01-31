@@ -153,8 +153,7 @@ public final class GameFrame extends JFrame {
     }
 
     /**
-     * Defines what happen after single cell on board is clicked
-     *
+     * Defines what happen after single cell on board being clicked
      * @param x x coordinate
      * @param y y coordinate
      */
