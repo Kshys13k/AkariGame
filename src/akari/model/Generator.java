@@ -128,45 +128,45 @@ public class Generator extends Engine {
         // the loop that randomly converts the wall into the wall with a number
         for(int j = 0; j < board.length - 2; j++) {
             for(int k = 0; k < board.length - 2; k++) {
-               if(board[j + 1][k + 1] == Field.WALL) {
-                   if(countWalls(board, j + 1, k + 1) == 4) {
-                       continue;
-                   }
-                   double toNumber = random.nextDouble();
-                   int wallNumber = countBulbs(board, j + 1, k + 1);
-                   switch(wallNumber) {
-                       case 0: {
-                           if(toNumber < toNumberChance) {
-                               board[j + 1][k + 1] = Field.WALL0;
-                               break;
-                           }
-                       }
-                       case 1: {
-                           if(toNumber < toNumberChance) {
-                               board[j + 1][k + 1] = Field.WALL1;
-                               break;
-                           }
-                       }
-                       case 2: {
-                           if(toNumber < toNumberChance) {
-                               board[j + 1][k + 1] = Field.WALL2;
-                               break;
-                           }
-                       }
-                       case 3: {
-                           if(toNumber < toNumberChance) {
-                               board[j + 1][k + 1] = Field.WALL3;
-                               break;
-                           }
-                       }
-                       case 4: {
-                           if(toNumber < toNumberChance) {
-                               board[j + 1][k + 1] = Field.WALL4;
-                               break;
-                           }
-                       }
-                   }
-               }
+                if(board[j + 1][k + 1] == Field.WALL) {
+                    if(countWalls(board, j + 1, k + 1) == 4) {
+                        continue;
+                    }
+                    double toNumber = random.nextDouble();
+                    int wallNumber = countBulbs(board, j + 1, k + 1);
+                    switch(wallNumber) {
+                        case 0: {
+                            if(toNumber < toNumberChance) {
+                                board[j + 1][k + 1] = Field.WALL0;
+                                break;
+                            }
+                        }
+                        case 1: {
+                            if(toNumber < toNumberChance) {
+                                board[j + 1][k + 1] = Field.WALL1;
+                                break;
+                            }
+                        }
+                        case 2: {
+                            if(toNumber < toNumberChance) {
+                                board[j + 1][k + 1] = Field.WALL2;
+                                break;
+                            }
+                        }
+                        case 3: {
+                            if(toNumber < toNumberChance) {
+                                board[j + 1][k + 1] = Field.WALL3;
+                                break;
+                            }
+                        }
+                        case 4: {
+                            if(toNumber < toNumberChance) {
+                                board[j + 1][k + 1] = Field.WALL4;
+                                break;
+                            }
+                        }
+                    }
+                }
             }
         }
         reset(board);
