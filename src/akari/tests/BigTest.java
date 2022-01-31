@@ -1,5 +1,6 @@
 package akari.tests;
 
+import akari.GUI.MainFrame;
 import akari.model.*;
 
 //solvuje wygenerowaną, zapisaną i odczytaną planszę
@@ -14,14 +15,22 @@ public class BigTest extends Engine {
         System.out.println("Wygenerowana plansza:");
         engine.printBoard(board);
         saveBoard.setBoard(board);
-        saveBoard.save(4);
-        board=loadBoard.load(4);
+        saveBoard.save(10);
+        board=loadBoard.load(10);
         System.out.println("Plansza wczytana z pliku:");
         engine.printBoard(board);
         Field[][] solvedBoard = solver.solve(board);
         System.out.println("Rozwiązanie: ");
         engine.printBoard(solvedBoard);
         System.out.println();
+    }
+
+    public static class MainFrameTest {
+        public static void main(String[] args) {
+            MainFrame frame = new MainFrame();
+            frame.pack();
+            frame.setVisible(true);
+        }
     }
 }
 /*

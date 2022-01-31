@@ -8,7 +8,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Locale;
 
-
+/**
+ *
+ */
 //Klasa zapisuje plansze do pliku CSV. Przy tworzeniu obiektu trzeba podać planszę.
 //Przy wywołaniu metody save trzeba podać nr sava do którego zapisujemy.
 public class SaveBoard {
@@ -51,7 +53,7 @@ public class SaveBoard {
                         boardCSV+="[ ],";
                 }
             }boardCSV=boardCSV.substring(0,boardCSV.length()-1);
-            boardCSV+="N";
+            boardCSV+="\n";
         }
         boardCSV=boardCSV.substring(0,boardCSV.length()-1);
         return boardCSV;
