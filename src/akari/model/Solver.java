@@ -1,5 +1,6 @@
 package akari.model;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,9 +10,6 @@ import java.util.List;
 public class Solver extends Engine {
 
 
-    public Solver(final Akari akari) {
-
-    }
 
     public Solver() {
 

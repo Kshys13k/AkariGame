@@ -7,9 +7,12 @@ umieszczanie żarówek polega na wpisywaniu odpowiednich adresów pól
 poszczególne pola zapisywane są w tablicy dwuwymiarowej
  */
 
-package akari.model;
+package akari.tests;
 
-public class Akari extends Engine{
+import akari.model.Engine;
+import akari.model.Generator;
+
+public class GameEngineTest extends Engine {
 
     /*
     W mainie znajduje się plansza z generatora i pętla kończąca się po prawidłowym ustawieniu
