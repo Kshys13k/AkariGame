@@ -1,12 +1,3 @@
-/*
-Główna klasa Akari
-Znajdują się tu zmienne i metody niezbędne do realizacji programu
-Gra ta polega na ustawianiu żarówek na planszy
-plansza składa się z pustych pól (komórek) na których można umieszczać żarówki i ścian
-umieszczanie żarówek polega na wpisywaniu odpowiednich adresów pól
-poszczególne pola zapisywane są w tablicy dwuwymiarowej
- */
-
 package akari.tests;
 
 import akari.model.Engine;
