@@ -1,12 +1,16 @@
 package akari.GUI;
 
 import akari.model.Engine;
+import akari.model.SaveBoard;
 import akari.model.Solver;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+
+import static javax.swing.SwingConstants.CENTER;
 
 public final class GameFrame extends JFrame {
 
@@ -17,18 +21,18 @@ public final class GameFrame extends JFrame {
     private JLabel[][] cells;
     private JPanel gamePanel;
     private JPanel menuPanel;
+    private JPanel savePanel;
 
     private BorderLayout mainLayout  ;
     private GridLayout gameLayout  ;
     private FlowLayout menuLayout ;
+    private GridLayout saveLayout;
 
     private final Engine engine;
     private boolean stillPlaying = true;
+    private boolean saveVisible = false;
 
     //Pictures
-
-//    final static private ImageIcon testTile1 = new ImageIcon("graphics/test_tile1.png");
-//    final static private ImageIcon testTile2 = new ImageIcon("graphics/test_tile2.png");
     final static private ImageIcon bulb = new ImageIcon("graphics/gameFrame/bulb.png");
     final static private ImageIcon empty = new ImageIcon("graphics/gameFrame/empty.png");
     final static private ImageIcon lighted = new ImageIcon("graphics/gameFrame/lighted.png");
@@ -41,6 +45,7 @@ public final class GameFrame extends JFrame {
     final static private ImageIcon resetButton = new ImageIcon("graphics/gameFrame/resetButton.png");
     final static private ImageIcon saveButton = new ImageIcon("graphics/gameFrame/saveButton.png");
     final static private ImageIcon solveButton = new ImageIcon("graphics/gameFrame/solveButton.png");
+
 
 
     /**
@@ -60,12 +65,15 @@ public final class GameFrame extends JFrame {
         gameFrameSetUp();
         gamePanelSetUp();
         menuPanelSetUp();
+        savePanelSetUp();
         update();
 
         add(gamePanel, BorderLayout.NORTH);
         add(menuPanel, BorderLayout.CENTER);
+        add(savePanel, BorderLayout.SOUTH);
 
     }
+
 
     public GameFrame(Engine.Field[][] board) {
         int size = board.length-2;
@@ -80,10 +88,12 @@ public final class GameFrame extends JFrame {
         gameFrameSetUp();
         gamePanelSetUp();
         menuPanelSetUp();
+        savePanelSetUp();
         update();
 
         add(gamePanel, BorderLayout.NORTH);
         add(menuPanel, BorderLayout.CENTER);
+        add(savePanel, BorderLayout.SOUTH);
     }
 
     private void gameFrameSetUp() {
@@ -131,7 +141,15 @@ public final class GameFrame extends JFrame {
         menu[1].addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                super.mousePressed(e);
+                if(!saveVisible) {
+                    saveVisible = true;
+                    savePanel.setVisible(true);
+                    pack();
+                }else{
+                    saveVisible = false;
+                    savePanel.setVisible(false);
+                    pack();
+                }
             }
         });
 
@@ -162,8 +180,8 @@ public final class GameFrame extends JFrame {
         for (int i = 0; i < sizeX; i++) {
             for (int j = 0; j < sizeY; j++) {
                 cells[i][j] = new JLabel();
-                cells[i][j].setVerticalAlignment(SwingConstants.CENTER);
-                cells[i][j].setHorizontalAlignment(SwingConstants.CENTER);
+                cells[i][j].setVerticalAlignment(CENTER);
+                cells[i][j].setHorizontalAlignment(CENTER);
                 this.gamePanel.add(cells[i][j]);
                 int finalI = i;
                 int finalJ = j;
@@ -178,13 +196,71 @@ public final class GameFrame extends JFrame {
             }
         }
     }
+    private void savePanelSetUp() {
+        savePanel = new JPanel();
+
+        saveLayout = new GridLayout(1,4);
+        savePanel.setLayout(saveLayout);
+        savePanel.setBackground(Color.GRAY);
+        JLabel save1Label = new JLabel(new ImageIcon("graphics/loadFrame/save1.png"), CENTER);
+        JLabel save2Label = new JLabel(new ImageIcon("graphics/loadFrame/save2.png"), CENTER);
+        JLabel save3Label = new JLabel(new ImageIcon("graphics/loadFrame/save3.png"), CENTER);
+        JLabel save4Label = new JLabel(new ImageIcon("graphics/loadFrame/save4.png"), CENTER);
+        savePanel.add(save1Label);
+        savePanel.add(save2Label);
+        savePanel.add(save3Label);
+        savePanel.add(save4Label);
+        savePanel.setVisible(false);
+
+        save1Label.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                try {
+                    saveBoard(1);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        save2Label.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                try {
+                    saveBoard(2);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        save3Label.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                try {
+                    saveBoard(3);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        save4Label.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                try {
+                    saveBoard(4);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+    }
+
 
     /**
      * Defines what happen after single cell on board being clicked
      * @param x x coordinate
      * @param y y coordinate
      */
-    void clicked(int x, int y) {
+    private void clicked(int x, int y) {
         System.out.println(x + " " + y);
         JLabel cell = cells[x][y];
         if (cell.getIcon() == empty) {
@@ -203,7 +279,7 @@ public final class GameFrame extends JFrame {
     /**
      * updates all images on screen
      */
-    void update() {
+    private void update() {
         for (int i = 0; i < sizeX; i++) {
             for (int j = 0; j < sizeY; j++) {
                 ImageIcon icon = switch (engine.getBoard()[i + 1][j + 1]) {
@@ -232,9 +308,25 @@ public final class GameFrame extends JFrame {
      * Method that solves current game through solver object
      */
 
-    void solve(){
+    private void solve(){
         Solver solver = new Solver();
         engine.setBoard(solver.solve(engine.getBoard()));
+    }
+
+    private  Engine.Field[][] skinBoard(){
+        Engine.Field[][] result = new Engine.Field[sizeX][sizeY];
+        for (int i = 0; i < sizeX; i++) {
+            for (int j = 0; j < sizeY; j++) {
+                result[i][j] = engine.getBoard()[i+1][j+1];
+            }
+        }
+        return result;
+    }
+
+    private void saveBoard(int saveNumber) throws IOException {
+        SaveBoard saveBoard = new SaveBoard();
+        saveBoard.setBoard(engine.getBoard());
+        saveBoard.save(saveNumber);
     }
 
 }

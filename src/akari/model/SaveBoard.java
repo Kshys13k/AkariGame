@@ -31,31 +31,22 @@ public class SaveBoard {
      * converting board to string
      * @return
      */
-    private String boardToCSV(){
+    private String boardToCSV() throws IOException {
         String boardCSV="";
         for (int i = 1; i < board.length-1; i++) {
             for (int j = 1; j < board.length-1; j++) {
                 switch(board[i][j]){
-                    case WALL:
-                        boardCSV+="[#],";
-                        break;
-                    case WALL1:
-                        boardCSV+="[1],";
-                        break;
-                    case WALL2:
-                        boardCSV+="[2],";
-                        break;
-                    case WALL3:
-                        boardCSV+="[3],";
-                        break;
-                    case WALL4:
-                        boardCSV+="[4],";
-                        break;
-                    case WALL0:
-                        boardCSV+="[0],";
-                        break;
-                    default:
-                        boardCSV+="[ ],";
+                    case WALL-> boardCSV+="[#],";
+                    case WALL1-> boardCSV+="[1],";
+                    case WALL2-> boardCSV+="[2],";
+                    case WALL3-> boardCSV+="[3],";
+                    case WALL4-> boardCSV+="[4],";
+                    case WALL0-> boardCSV+="[0],";
+                    case LIGHTED-> boardCSV+="[.],";
+                    case LIGHTED2-> boardCSV+="[:],";
+                    case EMPTY-> boardCSV+="[ ],";
+                    case BULB-> boardCSV+="[*],";
+                    default-> throw new IOException("Internal Error");
                 }
             }boardCSV=boardCSV.substring(0,boardCSV.length()-1);
             boardCSV+="\n";
@@ -68,7 +59,7 @@ public class SaveBoard {
      * saving board to .csv file
      * @param saveNumber number of save
      */
-    public void save(Integer saveNumber){
+    public void save(Integer saveNumber) throws IOException {
         String boardCSV=boardToCSV();
         Path path = Paths.get("./saves/save"+saveNumber.toString()+".csv");
         try {

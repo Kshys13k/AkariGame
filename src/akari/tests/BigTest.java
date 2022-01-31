@@ -3,11 +3,13 @@ package akari.tests;
 import akari.GUI.MainFrame;
 import akari.model.*;
 
+import java.io.IOException;
+
 /**
  * testing: Generator, Saver, Loader, Solver
  */
 public class BigTest extends Engine {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Engine engine = new Engine();
         Generator generator = new Generator();
         Solver solver = new Solver();

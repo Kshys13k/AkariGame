@@ -44,29 +44,23 @@ public class LoadBoard {
             j=0;
             for(String cell:cells){
                 switch(cell){
-                    case "[#]":
-                        board[i+1][j+1]=Engine.Field.WALL;
-                        break;
-                    case "[1]":
-                        board[i+1][j+1]=Engine.Field.WALL1;
-                        break;
-                    case "[2]":
-                        board[i+1][j+1]=Engine.Field.WALL2;
-                        break;
-                    case "[3]":
-                        board[i+1][j+1]=Engine.Field.WALL3;
-                        break;
-                    case "[4]":
-                        board[i+1][j+1]=Engine.Field.WALL4;
-                        break;
-                    case "[0]":
-                        board[i+1][j+1]=Engine.Field.WALL0;
-                        break;
-                    case "[ ]":
-                        board[i+1][j+1]=Engine.Field.EMPTY;
-                        break;
-                    default:
-                        throw new RuntimeException("Błędna zawartość pliku");
+                    case "[#]"-> board[i+1][j+1]=Engine.Field.WALL;
+                    case "[1]"-> board[i+1][j+1]=Engine.Field.WALL1;
+                    case "[2]"-> board[i+1][j+1]=Engine.Field.WALL2;
+                    case "[3]"-> board[i+1][j+1]=Engine.Field.WALL3;
+
+                    case "[4]"-> board[i+1][j+1]=Engine.Field.WALL4;
+
+                    case "[0]"-> board[i+1][j+1]=Engine.Field.WALL0;
+
+                    case "[ ]"-> board[i+1][j+1]=Engine.Field.EMPTY;
+
+                    case "[*]"-> board[i+1][j+1]=Engine.Field.BULB;
+
+                    case "[:]"->  board[i+1][j+1]=Engine.Field.LIGHTED2;
+
+                    case "[.]"-> board[i+1][j+1]=Engine.Field.LIGHTED;
+                    default-> throw new RuntimeException("Błędna zawartość pliku");
                 }
                 j++;
             }
