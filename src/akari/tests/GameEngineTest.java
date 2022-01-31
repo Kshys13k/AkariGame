@@ -5,9 +5,8 @@ import akari.model.Generator;
 
 public class GameEngineTest extends Engine {
 
-    /*
-    W mainie znajduje się plansza z generatora i pętla kończąca się po prawidłowym ustawieniu
-    wszystkich żarówek. Pętla wywołuje planszę oraz metodę input
+    /**
+     * Testing akari's engine
      */
 
     public static void main(String[] args) {
