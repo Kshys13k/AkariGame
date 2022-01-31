@@ -3,7 +3,9 @@ package akari.tests;
 import akari.GUI.MainFrame;
 import akari.model.*;
 
-//solvuje wygenerowaną, zapisaną i odczytaną planszę
+/**
+ * testing: Generator, Saver, Loader, Solver
+ */
 public class BigTest extends Engine {
     public static void main(String[] args) {
         Engine engine = new Engine();

@@ -8,14 +8,20 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-//klasa wczytująca plansze z plików (metoda load- podajemy nr save'a który chcemy otworzyć)
+/**
+ * loading board from .csv file
+ */
 public class LoadBoard {
 
     public LoadBoard(){
     }
 
-    //metoda na bazie stringa pobranego z pliku tworzy planszę gotową do gry
-private Engine.Field[][] CSVtoBoard(String boardCSV) {
+    /**
+     * converting string to board
+     * @param boardCSV board as a string
+     * @return
+     */
+    private Engine.Field[][] CSVtoBoard(String boardCSV) {
         String[]rows=boardCSV.split("N");
         Engine.Field[][] board=new Engine.Field[rows.length+2][rows.length+2];
 
@@ -66,6 +72,11 @@ private Engine.Field[][] CSVtoBoard(String boardCSV) {
         return board;
 }
 
+    /**
+     * loading board from .csv file
+     * @param saveNumber number of save
+     * @return
+     */
     public Engine.Field[][] load(Integer saveNumber){
         List <String> load= new ArrayList<>();
         Path path = Paths.get("./saves/save"+saveNumber.toString()+".csv");

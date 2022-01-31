@@ -1,5 +1,9 @@
 package akari.model;
 
+
+/**
+ * Contains cordinates of suspected cell
+ */
 public class SuspectedCell {
     private int x;
     private int y;

@@ -9,10 +9,8 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 /**
- *
+ * Saving board to .csv file
  */
-//Klasa zapisuje plansze do pliku CSV. Przy tworzeniu obiektu trzeba podać planszę.
-//Przy wywołaniu metody save trzeba podać nr sava do którego zapisujemy.
 public class SaveBoard {
     Engine.Field[][] board;
 
@@ -21,11 +19,18 @@ public class SaveBoard {
             this.board=board;
     }
 
+    /**
+     * setting board to save
+     * @param board
+     */
     public void setBoard(Engine.Field[][] board) {
         this.board = board;
     }
 
-    //metoda tworzy stringa do zapisu do pliku
+    /**
+     * converting board to string
+     * @return
+     */
     private String boardToCSV(){
         String boardCSV="";
         for (int i = 1; i < board.length-1; i++) {
@@ -59,7 +64,10 @@ public class SaveBoard {
         return boardCSV;
     }
 
-    //zapisuje zadaną planszę do pliku
+    /**
+     * saving board to .csv file
+     * @param saveNumber number of save
+     */
     public void save(Integer saveNumber){
         String boardCSV=boardToCSV();
         Path path = Paths.get("./saves/save"+saveNumber.toString()+".csv");

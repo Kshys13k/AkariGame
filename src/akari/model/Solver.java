@@ -3,6 +3,9 @@ package akari.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Solving given board
+ */
 public class Solver extends Engine {
 
 
@@ -14,6 +17,13 @@ public class Solver extends Engine {
 
     }
 
+    /**
+     * if field is a bulb or is lighted or is next to wall0 returns false
+     * @param board board
+     * @param row row of the board
+     * @param column column of the board
+     * @return
+     */
     //metoda sprawdzająca czy pole jest ścianą, żarówką lub jest podświetlone, lub czy jest obok ściany [0]
     private boolean possibleBulb(Field[][] board, int row, int column) {
         Field field = board[row][column];
@@ -23,6 +33,13 @@ public class Solver extends Engine {
                 || board[row][column - 1] == Field.WALL0 || board[row][column + 1] == Field.WALL0);
     }
 
+    /**
+     * returns true if you can place a bulb on given field and after that it is possible to win a game
+     * @param board board
+     * @param x row of the board
+     * @param y column of the board
+     * @return
+     */
     //sprawdza czy można zaświecić podejrzane pole
     private boolean canBeTurnedOn(Field[][] board, int x, int y) {
         //jeśli pole podświetlone lub zawiera żarówkę to nie można:
@@ -86,6 +103,13 @@ public class Solver extends Engine {
         return true;
     }
 
+    /**
+     * placeing bulbs on adjacent fields if possible
+     * @param board board
+     * @param i row of the board
+     * @param j column of the board
+     * @return
+     */
     private boolean placeBulbOnAdjacentFieldsIfPossible(Field[][] board, int i, int j) {
         boolean newBulb=false;
         if (i > 1) if (canBeTurnedOn(board, i - 1, j)&&possibleBulb(board,i - 1, j)) {
@@ -107,7 +131,11 @@ public class Solver extends Engine {
         return newBulb;
     }
 
-    //krok 1 algorytmu
+
+    /**
+     * Step 1 of solving algorithm
+     * @param board
+     */
     private void step1(Field[][] board) {
         boolean newBulb;
         int counter; //zmienna licząca ile żarówek maksymalnie może stykać się z danym polem
@@ -139,6 +167,11 @@ public class Solver extends Engine {
         }
     }
 
+    /**
+     * Step 2 of solving algorithm- bruteforce
+     * @param board
+     * @return
+     */
     private Field[][] bruteForce(Field[][] board) {
         int stepCounter=0;
         //wyznaczanie miejsc, gdzie można postawić żarówkę:
@@ -191,7 +224,11 @@ public class Solver extends Engine {
         return board;
     }
 
-
+    /**
+     * solving the board
+     * @param unsolvedBoard
+     * @return
+     */
     public Field[][] solve(Field[][] unsolvedBoard) {
         Field[][] board = unsolvedBoard;
         reset(board);
