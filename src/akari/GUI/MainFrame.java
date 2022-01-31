@@ -1,5 +1,8 @@
 package akari.GUI;
 
+import akari.model.Engine;
+import akari.model.LoadBoard;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -152,12 +155,30 @@ public final class MainFrame extends JFrame {
         MainFrame.this.setToNumberChance((float) 0.6);
     }
 
+    public void playCustomBoard(Engine.Field[][] board){
+            isLocked = true;
+            setVisible(false);
+            gameFrame = new GameFrame(board);
+            gameFrame.pack();
+            gameFrame.setVisible(true);
+            gameFrame.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    isLocked = false;
+                    setVisible(true);
+                    super.windowClosing(e);
+                }
+            });
+    }
+
     private class SettingsFrame extends JFrame {
         private JPanel settingPanel;
         private JLabel settingsLogoLabel;
         private JLabel easyLabel;
         private JLabel normalLabel;
         private JLabel hardLabel;
+
+
 
 
         public SettingsFrame(){
@@ -209,8 +230,11 @@ public final class MainFrame extends JFrame {
 
     private class LoadFrame extends JFrame{
         private JLabel loadLogoLabel;
-        private JList savesList;
         private JPanel loadPanel;
+        private JLabel save1Label;
+        private JLabel save2Label;
+        private JLabel save3Label;
+        private JLabel save4Label;
 
 
         public LoadFrame(){
@@ -220,14 +244,52 @@ public final class MainFrame extends JFrame {
             setResizable(false);
             setPreferredSize(new Dimension(400,200) );
             loadPanel.setBackground(Color.GRAY);
-            savesList.setBackground(Color.GRAY);
 
-
+            //graphics
             loadLogoLabel.setIcon(new ImageIcon("graphics/loadFrame/loadLogo.png"));
+            save1Label.setIcon(new ImageIcon("graphics/loadFrame/save1.png"));
+            save2Label.setIcon(new ImageIcon("graphics/loadFrame/save2.png"));
+            save3Label.setIcon(new ImageIcon("graphics/loadFrame/save3.png"));
+            save4Label.setIcon(new ImageIcon("graphics/loadFrame/save4.png"));
+
+
+            //mouse listeners
+            LoadBoard loadBoard = new LoadBoard();
+            save1Label.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    playCustomBoard(loadBoard.load(1));
+                    setVisible(false);
+                }
+            });
+            save2Label.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    playCustomBoard(loadBoard.load(2));
+                    setVisible(false);
+                }
+            });
+            save3Label.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    playCustomBoard(loadBoard.load(3));
+                    setVisible(false);
+                }
+            });
+            save4Label.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    playCustomBoard(loadBoard.load(4));
+                    setVisible(false);
+                }
+            });
 
 
 
         }
 
     }
+
+
+
 }
