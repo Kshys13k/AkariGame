@@ -11,7 +11,7 @@ public class SavingTest extends Engine {
         Field[][] board = generator.generate(engine.boardSize(), 0.25, 0.75, 0.5);
         engine.printBoard(board);
         SaveBoard saveBoard= new SaveBoard(board);
-        saveBoard.save(1);
+        saveBoard.save(3);
         System.out.println();
     }
 }

@@ -17,8 +17,8 @@ public class BigTest extends Engine {
         System.out.println("Wygenerowana plansza:");
         engine.printBoard(board);
         saveBoard.setBoard(board);
-        saveBoard.save(10);
-        board=loadBoard.load(10);
+        saveBoard.save(2);
+        board=loadBoard.load(2);
         System.out.println("Plansza wczytana z pliku:");
         engine.printBoard(board);
         Field[][] solvedBoard = solver.solve(board);

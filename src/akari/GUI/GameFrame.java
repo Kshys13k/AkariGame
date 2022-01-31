@@ -1,7 +1,6 @@
 package akari.GUI;
 
 import akari.model.Engine;
-import akari.model.Generator;
 import akari.model.Solver;
 
 import javax.swing.*;
@@ -10,9 +9,18 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public final class GameFrame extends JFrame {
-    private final int sizeX;
-    private final int sizeY;
-    private final JLabel[][] cells;
+
+
+    private  int sizeX;
+    private  int sizeY;
+
+    private JLabel[][] cells;
+    private JPanel gamePanel;
+    private JPanel menuPanel;
+
+    private BorderLayout mainLayout  ;
+    private GridLayout gameLayout  ;
+    private FlowLayout menuLayout ;
 
     private final Engine engine;
     private boolean stillPlaying = true;
@@ -40,59 +48,57 @@ public final class GameFrame extends JFrame {
      *
      * @param size size of the board is size x size
      */
-    public GameFrame(int size, float wallsMin, float wallsMax, float toNumberChance) {
+    public GameFrame(int size, float wallsMin, float wallsMax, float toNumberChance ) {
         //basic setup
         this.sizeX = size;
         this.sizeY = size;
         this.cells = new JLabel[sizeX][sizeY];
         this.engine = new Engine();
-
-        Generator generator = new Generator();
         engine.generateBoard(size, wallsMin, wallsMax, toNumberChance);
 
+        //setup
+        gameFrameSetUp();
+        gamePanelSetUp();
+        menuPanelSetUp();
+        update();
 
-        //Layouts
-        BorderLayout mainLayout = new BorderLayout();
-        GridLayout gameLayout = new GridLayout(sizeX, sizeY, 1, 1);
-        FlowLayout menuLayout = new FlowLayout();
+        add(gamePanel, BorderLayout.NORTH);
+        add(menuPanel, BorderLayout.CENTER);
 
+    }
 
-        //GameFrame setup
+    public GameFrame(Engine.Field[][] board) {
+        int size = board.length-2;
+        this.sizeX = size;
+        this.sizeY = size;
+        this.cells = new JLabel[sizeX][sizeY];
+        this.engine = new Engine();
+
+        engine.setBoard(board);
+
+        //setup
+        gameFrameSetUp();
+        gamePanelSetUp();
+        menuPanelSetUp();
+        update();
+
+        add(gamePanel, BorderLayout.NORTH);
+        add(menuPanel, BorderLayout.CENTER);
+    }
+
+    private void gameFrameSetUp() {
         getContentPane();
         setTitle("Akari " + sizeX + " x" + sizeY);
         setResizable(false);
         setBackground(Color.GRAY);
+        mainLayout = new BorderLayout();
         setLayout(mainLayout);
+    }
 
-        //gamePanel setup
-        JPanel gamePanel = new JPanel();
-        gamePanel.setLayout(gameLayout);
-        gamePanel.setBackground(Color.GRAY);
-        gamePanel.setPreferredSize(new Dimension(41*size-1,41*size-1));
-
-        //game mouse listeners setup
-        for (int i = 0; i < sizeX; i++) {
-            for (int j = 0; j < sizeY; j++) {
-                cells[i][j] = new JLabel();
-                cells[i][j].setVerticalAlignment(SwingConstants.CENTER);
-                cells[i][j].setHorizontalAlignment(SwingConstants.CENTER);
-                gamePanel.add(cells[i][j]);
-                int finalI = i;
-                int finalJ = j;
-                cells[i][j].addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mousePressed(MouseEvent e) {
-                        if (stillPlaying) {
-                            clicked(finalI, finalJ);
-                        }
-                    }
-                });
-            }
-        }
-
-
+    private void menuPanelSetUp() {
         //menuPanel setup
-        JPanel menuPanel = new JPanel();
+        menuLayout = new FlowLayout();
+        menuPanel = new JPanel();
         menuPanel.setLayout(menuLayout);
         menuPanel.setBackground(Color.GRAY);
 
@@ -108,8 +114,8 @@ public final class GameFrame extends JFrame {
                 for (int i = 1; i < sizeX+1; i++) {
                     for (int j = 1; j < sizeY+1; j++) {
                         if(engine.getBoard()[i][j] == Engine.Field.BULB ||
-                           engine.getBoard()[i][j]== Engine.Field.LIGHTED ||
-                           engine.getBoard()[i][j] == Engine.Field.LIGHTED2)
+                                engine.getBoard()[i][j]== Engine.Field.LIGHTED ||
+                                engine.getBoard()[i][j] == Engine.Field.LIGHTED2)
                         {
                             engine.getBoard()[i][j] = Engine.Field.EMPTY;
                         }
@@ -141,15 +147,36 @@ public final class GameFrame extends JFrame {
                 }
             }
         });
+    }
 
+    private void gamePanelSetUp() {
 
+        gameLayout = new GridLayout(sizeX, sizeY, 1, 1);
+        //gamePanel setup
+        gamePanel = new JPanel();
+        gamePanel.setLayout(gameLayout);
+        gamePanel.setBackground(Color.GRAY);
+        gamePanel.setPreferredSize(new Dimension(41*sizeX-1,41*sizeY-1));
 
-        update();
-
-        add(gamePanel, BorderLayout.NORTH);
-        add(menuPanel, BorderLayout.SOUTH);
-
-
+        //game mouse listeners setup
+        for (int i = 0; i < sizeX; i++) {
+            for (int j = 0; j < sizeY; j++) {
+                cells[i][j] = new JLabel();
+                cells[i][j].setVerticalAlignment(SwingConstants.CENTER);
+                cells[i][j].setHorizontalAlignment(SwingConstants.CENTER);
+                this.gamePanel.add(cells[i][j]);
+                int finalI = i;
+                int finalJ = j;
+                cells[i][j].addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        if (stillPlaying) {
+                            clicked(finalI, finalJ);
+                        }
+                    }
+                });
+            }
+        }
     }
 
     /**

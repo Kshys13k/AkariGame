@@ -82,10 +82,9 @@ public class LoadBoard {
      */
     public Engine.Field[][] load(Integer saveNumber){
         String resultString = "";
-       // Path path = Paths.get("./saves/save"+saveNumber.toString()+".csv");
         try {
             BufferedReader br = new BufferedReader(new FileReader("./saves/save"+saveNumber.toString()+".csv"));
-            String line;
+            String line ;
             while ((line = br.readLine()) != null){
                 resultString+= line;
                 resultString += "N";
@@ -96,7 +95,6 @@ public class LoadBoard {
             e.printStackTrace();
         }
         resultString = resultString.substring(0,resultString.length()-1) ;
-        List <String> load= new ArrayList<>();
 
         Engine.Field[][] board= CSVtoBoard(resultString);
         return board;
