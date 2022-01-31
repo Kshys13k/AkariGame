@@ -188,7 +188,7 @@ public class Solver extends Engine {
                 //TEST
 //                System.out.println("pointer==limit");
                 stepCounter++;
-                if(stepCounter>10000000){
+                if(stepCounter>100000000){
                     System.out.println("Rozwiązanie tej planszy jest zaiste bardzo proste, ale ten margines go nie pomieści");
                     throw new RuntimeException("Rozwiązanie tej planszy jest zaiste bardzo proste, ale ten margines go nie pomieści");
                 }
