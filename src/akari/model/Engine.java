@@ -3,8 +3,15 @@ package akari.model;
 import java.util.Scanner;
 
 public class Engine {
-    /*
-    Zmienne określające dany typ elementu planszy
+
+    /**
+     * enums contain types of the akari's field
+     * empty - an empty field
+     * bulb - a field with a bulb
+     * lighted - a field lighted by a bulb
+     * lighted2 - a field lighted by two bulbs
+     * wall - a field with a wall without any number
+     * wall 0,1,2,3,4 - a field with a wall with number 0,1,2,3,4
      */
 
     public enum Field {
@@ -29,18 +36,26 @@ public class Engine {
         this.board = board;
     }
 
-    public static String alphabet = "abcdefghijklmnopqrstuvwxyz"; /* alfabet, przydatny do
-    orientacji na planszy
+    /**
+     * alphabet, useful for orientation on the board
      */
 
-    //metoda umożliwiająca wprowadzenie przez użytkownika wielkości planszy
+    public static String alphabet = "abcdefghijklmnopqrstuvwxyz";
+
+    /**
+     * boardSize() allows a user to enter the size of a board
+     */
+
     public int boardSize() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("ENTER BOARD SIZE (1 - 26): ");
         return scanner.nextInt();
     }
 
-    //metoda resetująca planszę, usuwa wszystkie żarówki z planszy
+    /**
+     * reset(Field[][] board) resets the board, by displacing all bulbs
+     */
+
     public void reset(Field[][] board) {
         for (int i = 0; i < board.length - 2; i++) {
             for (int j = 0; j < board.length - 2; j++) {
@@ -51,21 +66,29 @@ public class Engine {
         }
     }
 
-    //metoda wyświetla instrukcję
+    /**
+     * intro() prints the instruction
+     */
+
     public void intro() {
         System.out.println("AKARI\nTO PLACE/DISPLACE A BULB TYPE COORDINATES OF A CELL (FOR EXAMPLE: d2)");
         System.out.println("TYPE reset TO RESET THE BOARD");
         System.out.println("TYPE exit TO EXIT");
     }
 
-    //metoda ta wyświetla planszę i napis "YOU WON!"
+    /**
+     * winGame(Field[][] board) prints the board and String "YOU WON!"
+     */
+
     public void winGame(Field[][] board) {
         printBoard(board);
         System.out.println("YOU WON!");
     }
 
-    //zlicza wszystkie żarówki stykające się z danym polem,
-    //przydatne w określeniu liczby żarówek wokół pól z numerami
+    /**
+     * countBulbs(Field[][] board, int row, int column) counts all the bulbs adjacent to the field
+     */
+
     public int countBulbs(Field[][] board, int row, int column) {
         int counter = 0;
         if (board[row][column - 1] == Field.BULB) {
@@ -83,9 +106,11 @@ public class Engine {
         return counter;
     }
 
-    //metoda sprawdza czy spełnione są warunki niezbędne do ukończenia gry,
-    //w przypadku spełnienia tych warunków zwraca false,
-    //w przeciwnym wypadku, tj. gdy któryś z warunków nie jest spełniony zwraca true
+    /**
+     * endGame(Field[][] board) checks whether the conditions to win the game are met and if they are returns false
+     * otherwise returns true
+     */
+
     public boolean endGame(Field[][] board) {
         boolean bool = false;
         outer:
@@ -117,10 +142,13 @@ public class Engine {
         return bool;
     }
 
-    //metoda do wpisywania pól, na których umieszczane będą żarówki,
-    //pola wpisuje się poprzez podanie litery kolumny i numeru rzędu (np. d2)
-    //po wpisaniu reset plansza się resetuje
-    //po wpisaniu exit program wyłącza się
+    /**
+     * input(Field[][] board) allows a user to enter the field on which the bulb will be placed/displaced
+     * to enter a field type column letter and row number
+     * type exit to exit
+     * type reset to reset the board
+     */
+
     public void input(Field[][] board) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("SELECT CELL: ");
@@ -142,7 +170,11 @@ public class Engine {
         }
     }
 
-    //metoda, która wywołuje planszę w konsoli
+
+    /**
+     * printBoard(Field[][] board) prints the board in the terminal
+     */
+
     public void printBoard(Field[][] board) {
         System.out.print("   ");
         for (int i = 0; i < board.length - 2; i++) {
@@ -178,7 +210,11 @@ public class Engine {
     }
 
 
-    //lightUp zmienia pola nieoświetlone w oświetlone
+    /**
+     * lightUp(Field[][] board, int row, int column) turns an empty field into lighted
+     * and a lighted field into lighted2
+     */
+
     public void lightUp(Field[][] board, int row, int column) {
         if (board[row][column] == Field.EMPTY) {
             board[row][column] = Field.LIGHTED;
@@ -187,7 +223,11 @@ public class Engine {
         }
     }
 
-    //lightDown zmienia pola oświetlone w nieoświetlone
+    /**
+     * lightDown(Field[][] board, int row, int column) turns a lighted field into empty
+     * and a lighted2 field into lighted
+     */
+
     public void lightDown(Field[][] board, int row, int column) {
         if (board[row][column] == Field.LIGHTED2) {
             board[row][column] = Field.LIGHTED;
@@ -196,8 +236,12 @@ public class Engine {
         }
     }
 
-    //metoda sprawdza czy pole jest oświetlone i jeżeli nie jest to je oświetla i zwraca true
-    //zwraca false w przeciwnym wypadku
+    /**
+     * light(Field[][] board, int row, int column) checks whether the field is empty or lighted
+     * and if it is, lights it up and returns true,
+     * else returns false
+     */
+
     public boolean light(Field[][] board, int row, int column) {
         if (board[row][column] == Field.EMPTY || board[row][column] == Field.LIGHTED) {
             lightUp(board, row, column);
@@ -207,8 +251,12 @@ public class Engine {
         }
     }
 
-    //metoda sprawdza czy pole jest oświetlone i jeżeli jest to je odświetla i zwraca true
-    //zwraca false w przeciwnym wypadku
+    /**
+     * unLight(Field[][] board, int row, int column) checks whether the field is lighted or lighted2
+     * and if it is, lights it down and returns true,
+     * else returns false
+     */
+
     public boolean unLight(Field[][] board, int row, int column) {
         if (board[row][column] == Field.LIGHTED || board[row][column] == Field.LIGHTED2) {
             lightDown(board, row, column);
@@ -218,8 +266,12 @@ public class Engine {
         }
     }
 
-    //metoda umieszcza żarówkę na danym polu i oświetla wszystkie pola wokół
-    //metoda również usuwa żarówkę z danego pola i odświetla wszystkie pola wokół
+    /**
+     * placeBulb(Field[][] board, int row, int column) checks whether the field is empty
+     * and if it is, places the bulb in it,
+     * else if the field already contains the bulb, displaces the bulb
+     */
+
     public void placeBulb(Field[][] board, int row, int column) {
         boolean left = true;
         boolean right = true;
