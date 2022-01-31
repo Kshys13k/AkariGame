@@ -8,14 +8,22 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Locale;
 
+
+//Klasa zapisuje plansze do pliku CSV. Przy tworzeniu obiektu trzeba podać planszę.
+//Przy wywołaniu metody save trzeba podać liczbę od 1 do 3 (zapisuje do jednego z 3 możliwych savów).
 public class SaveBoard {
     Engine.Field[][] board;
 
+    public SaveBoard(){}
     public SaveBoard(Engine.Field board [][]){
             this.board=board;
     }
 
-    //metoda tworzy tablicę stringów do zapisu do pliku; każdy string w tablicy to linia tekstu do zapisania do pliku CSV
+    public void setBoard(Engine.Field[][] board) {
+        this.board = board;
+    }
+
+    //metoda tworzy stringa do zapisu do pliku
     private String boardToCSV(){
         String boardCSV="";
         for (int i = 1; i < board.length-1; i++) {
@@ -49,7 +57,7 @@ public class SaveBoard {
         return boardCSV;
     }
 
-
+    //zapisuje zadaną planszę do pliku
     public void save(Integer saveNumber){
         String boardCSV=boardToCSV();
         Path path = Paths.get("./saves/save"+saveNumber.toString()+".csv");

@@ -1,6 +1,10 @@
-package akari.model;
+package akari.tests;
 
-public class LoadingTest extends Engine{
+import akari.model.Engine;
+import akari.model.Generator;
+import akari.model.LoadBoard;
+
+public class LoadingTest extends Engine {
     public static void main(String[] args) {
         Engine engine = new Engine();
         Generator generator = new Generator();

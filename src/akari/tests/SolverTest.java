@@ -1,6 +1,10 @@
-package akari.model;
+package akari.tests;
 
-public class SolverTest extends Engine{
+import akari.model.Engine;
+import akari.model.Generator;
+import akari.model.Solver;
+
+public class SolverTest extends Engine {
     public static void main(String[] args) {
         Engine engine = new Engine();
         Generator generator = new Generator();
